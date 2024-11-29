@@ -1,9 +1,9 @@
 <?php
 
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'TYPO3 Blog',
-    'description' => 'Blog Extension für TYPO3',
-    'version' => '1.0.0',
+    'title' => 'Simple TYPO3 Blog',
+    'description' => 'Simple TYPO3 blog extension.',
+    'version' => '1.0.2',
     'state' => 'stable',
     'author' => 'Andre Lanius',
     'author_email' => 'info@andre-lanius.site',
@@ -11,6 +11,7 @@ $EM_CONF[$_EXTKEY] = [
     'constraints' => [
         'depends' => [
             'typo3' => '13.0.0-13.4.99',
+            'php' => '8.2.0-8.3.99',
         ],
     ],
     'autoload' => [
