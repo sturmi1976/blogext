@@ -1,0 +1,21 @@
+{
+    "name": "lanius/blogext",
+    "description": "Simple TYPO3 blog extension.",
+    "type": "typo3-cms-extension",
+    "license": [
+        "GPL-2.0-or-later"
+    ],
+    "require": {
+        "typo3/cms-core": "^13.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lanius\\Blogext\\": "Classes/" 
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "blogext"
+        }
+    }
+}

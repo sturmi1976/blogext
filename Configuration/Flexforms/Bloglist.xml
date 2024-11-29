@@ -1,0 +1,92 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <sheetTitle>
+                    Allgemeine Einstellungen
+                </sheetTitle>
+                <type>array</type>
+                <el>
+                    <settings.bloglistPid>
+                        <label>
+                            PageUID - Seite wo sich das Bloglist-Plugin befindet.
+                        </label>
+                        <config>
+                            <type>group</type>
+                            <allowed>pages</allowed>
+                            <maxitems>1</maxitems>
+                            <minitems>1</minitems>
+                            <size>1</size>
+                            <suggestOptions>
+                                <default>
+                                    <additionalSearchFields>nav_title, alias, url</additionalSearchFields>
+                                    <addWhere>AND pages.doktype = 1</addWhere>
+                                </default>
+                            </suggestOptions>
+                        </config>
+                    </settings.bloglistPid>
+                    <settings.dataPid>
+                      <label>
+                        DataUID - Ordner mit den Datensätzen
+                      </label>
+                      <config>
+                          <type>group</type>
+                          <internal_type>db</internal_type>
+                          <allowed>pages</allowed>
+                          <maxitems>1</maxitems>
+                          <minitems>1</minitems>
+                          <size>1</size>
+                          <addWhere>AND pages.doktype = 254</addWhere>
+                      </config>
+                    </settings.dataPid>
+                </el>
+            </ROOT>
+        </sDEF>
+        <sDEF2>
+            <ROOT>
+                <sheetTitle>
+                    SEO
+                </sheetTitle>
+                <type>array</type>
+                <el>
+                      <settings.seo_title>
+                        <label>
+                            SEO title tag (Standard-Title wenn man in der Listenübersicht sich befindet)
+                        </label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </settings.seo_title>
+                    <settings.seo_description>
+                        <label>
+                            SEO Meta Description (Standard-Description wenn man in der Listenübersicht sich befindet)
+                        </label>
+                        <config>
+                            <type>text</type>
+                        </config>
+                    </settings.seo_description>
+                </el>
+            </ROOT>
+        </sDEF2>
+
+        <sDEF3>
+            <ROOT>
+                <sheetTitle>
+                    Pagination
+                </sheetTitle>
+                <type>array</type>
+                <el>
+                      <settings.perPage>
+                        <label>
+                            Anzahl der Blogs pro Seite in der Listenansicht
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <default>20</default>
+                        </config>
+                    </settings.perPage>
+                </el>
+            </ROOT>
+        </sDEF3>
+    </sheets>
+</T3DataStructure>

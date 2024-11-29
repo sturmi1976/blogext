@@ -1,0 +1,45 @@
+
+
+<article>
+    <header>
+        <p>
+            <f:render partial="Blog/Show/Backlink" arguments="{blog}" />
+        </p>
+        <f:render partial="Blog/Show/Headline" arguments="{blog.blog.0}" />
+        <p class="created_date">
+            {f:translate(key: 'created_label', extensionName: 'Blogext')}: 
+            <time datetime="{f:format.date(format: '%Y-%m-%d', date: '{blog.blog.0.crdate}')}">
+                <f:format.date format="%d. %B %Y">{blog.blog.0.crdate}</f:format.date>
+            </time> 
+            von {blog.author.0.realName}
+        </p>
+    </header> 
+<section>
+    <f:render partial="Blog/Show/Content" arguments="{blog}" />
+</section>
+<footer>
+    <p>
+        <b class="cat_label">Kategorie(n):</b> 
+        <f:for each="{blog.categories}" as="category" iteration="i">
+            <f:link.action action="category" controller="Blog" arguments="{categoryUid: category.0.uid}">
+                <span class="cat">{category.0.title}</span>
+            </f:link.action>
+        </f:for>
+    </p>
+</footer>
+</article>
+
+
+
+
+<section id="comments">
+    <f:if condition="{blog.blog.0.comments_disable} == 1">
+        <div class="alert alert-primary" role="alert">
+            Kommentare sind in diesem Beitrag deaktiviert.
+        </div>
+    </f:if>
+
+    <f:if condition="{blog.blog.0.comments_disable} == 0">
+
+    </f:if>
+</section>

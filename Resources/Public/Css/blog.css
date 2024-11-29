@@ -1,0 +1,113 @@
+article.blogListArticle {
+    display:inline-block;
+    margin-bottom: 2.6rem;
+}
+
+ article.blogListArticle span.category_tag {
+    background-color:rgb(212, 147, 25);
+    font-size: 1em;
+     padding:0.5em 1em;
+     height: 2.4em;
+     border-radius: 1.2em;
+     border: 1px solid #ddd;
+ }
+
+ article.blogListArticle a {
+    color:#fff;
+    text-decoration: none;
+ }
+
+ article.blogListArticle a:hover span.category_tag {
+    -webkit-box-shadow: 0px 0px 3px 1px #000000; 
+    box-shadow: 0px 0px 3px 1px #000000;
+    text-shadow: 1px 1px 3px #000;
+ }
+
+ p.created_at, p.created_from {
+    font-style: italic;
+    font-size:1.1rem;
+ }
+
+ div.categories-all {
+    display:flex;
+ }
+
+ article.blogListArticle p.categories-button {
+    margin-bottom: 1.9rem;
+ }
+
+
+ /* Pagination */
+
+ul.pagination {
+    display: flex;
+}
+
+ul.pagination li {
+    background-color: rgb(212, 147, 25);
+    margin-right:1.8rem;
+    display: block;
+    font-size:1.5rem;
+}
+
+ul.pagination li:hover {
+    -webkit-box-shadow: 0px 0px 3px 1px #000000; 
+    box-shadow: 0px 0px 3px 1px #000000;
+    text-shadow: 1px 1px 3px #000;
+}
+
+ul.pagination li b {
+    display: block;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color:#464849;
+}
+
+ul.pagination li b.more {
+    display: block;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    color:#fff;
+}
+
+ul.pagination li a {
+    display: block;
+    padding:5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: rgb(212, 147, 25);
+    color:#fff;
+}
+
+div.blogShowBacklink {
+    margin-bottom: 1.7rem;
+}
+
+a.blogListLink {
+    color:#181818;
+}
+a.blogListLink h2 {
+    color:#181818;
+}
+
+span.cat {
+    font-size: 1em;
+     padding:0.3em 1em;
+     margin-right: 1.3rem;
+     height: 2.4em;
+     border-radius: 1.2em;
+     border: 1px solid #ddd;
+     background-image: linear-gradient(to bottom, #efefef 30%, #ccc 80%);
+     text-transform: uppercase;
+     letter-spacing:1px;
+     color:#777;
+     text-shadow: 1px 1px 4px #fff;
+     font-weight:bold;
+}
+
+p.created_date {
+    font-style: italic;
+    font-size:1rem;
+}

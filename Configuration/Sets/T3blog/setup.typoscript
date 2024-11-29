@@ -1,0 +1,13 @@
+page.includeCSS {
+    blogCSS = EXT:blogext/Resources/Public/Css/blog.css
+}
+
+
+config.pageTitleProviders {
+  blogext {
+    provider = Lanius\Blogext\PageTitle\TitleProvider
+    before = altPageTitle,record,seo,news
+  }
+}
+
+

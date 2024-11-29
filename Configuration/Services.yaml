@@ -1,0 +1,12 @@
+services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: true
+  Lanius\Blogext\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Domain/Model/*'
+  Lanius\Blogext\PageTitle\TitleProvider: null
+  Lanius\Blogext\Backend\Controller\BlogBackendController:
+    tags:
+      - backend.controller
