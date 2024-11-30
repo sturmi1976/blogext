@@ -12,7 +12,7 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
        'Blogext',
        'bloglist',
        [
-             \Lanius\Blogext\Controller\BlogController::class => 'list, show, category' 
+             \Lanius\Blogext\Controller\BlogController::class => 'list, show, category, writeComment' 
        ]
     );
  })();

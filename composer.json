@@ -1,6 +1,6 @@
 {
     "name": "lanius/blogext",
-    "description": "Simple TYPO3 blog extension.",
+    "description": "With this record-based extension for TYPO3, it is easy to run a blog on your TYPO3 website, including RSS functionality and integration into the Google Sitemap with route enhancers for SEO-friendly links.",
     "type": "typo3-cms-extension",
     "license": [
         "GPL-2.0-or-later"
@@ -16,7 +16,7 @@
     },
     "extra": {
         "typo3/cms": {
-            "extension-key": "blogext"
+            "extension-key": "blogext" 
         }
     }
 }

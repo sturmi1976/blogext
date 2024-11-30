@@ -18,6 +18,14 @@
         <source>Author</source>
         <target>Autor</target>
       </trans-unit>
+      <trans-unit id="comments_disable">
+        <source>Comments are disabled on this post.</source>
+        <target>Kommentare sind in diesem Beitrag deaktiviert.</target>
+      </trans-unit>
+      <trans-unit id="comment_headline">
+        <source>Write a comment</source>
+        <target>Kommentar schreiben</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -285,6 +285,21 @@ class BlogController extends ActionController
 
 
 
+    public function writeCommentAction(): ResponseInterface
+    {
+        /* All get params to the forum showAction */
+        $get = $this->request->getArguments();
+
+        // Redirect nach erfolgreichen speichern
+        $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid']]);
+        return $this->responseFactory->createResponse(307)->withHeader('Location', $uri);
+
+
+        return $this->htmlResponse(); 
+    }
+
+
+
     /**
      * category show
      *
