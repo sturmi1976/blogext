@@ -20,7 +20,7 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
 
 
 
-// Typoscript global laden
+// Typoscript load
 ExtensionManagementUtility::addTypoScript(
     'blogext',
     'setup',

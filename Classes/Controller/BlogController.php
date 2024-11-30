@@ -201,6 +201,13 @@ class BlogController extends ActionController
 
         /* All get params to the forum showAction */
         $get = $this->request->getArguments();
+
+        if(isset($get['success'])) {
+            $success = 1;
+        }else {
+            $success = 0;
+        }
+
         $blog = $this->postRepository->findBlogByUid($get['blogUid']);
 
         // Content Elemente laden aus tt_content
@@ -276,6 +283,7 @@ class BlogController extends ActionController
             'author' => $author,
             'categories' => $cat,
             'tt_content' => $tt_content,
+            'success' => $success
         ]);
 
         return $this->htmlResponse(); 
@@ -290,10 +298,39 @@ class BlogController extends ActionController
         /* All get params to the forum showAction */
         $get = $this->request->getArguments();
 
-        // Redirect nach erfolgreichen speichern
-        $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid']]);
-        return $this->responseFactory->createResponse(307)->withHeader('Location', $uri);
+        /* Flexform */
+        $flexformData = $this->settings;
 
+        /* Data from form */
+        if(isset($get['submit'])) {
+            $name       = htmlspecialchars($get['name']);
+            $email      = htmlspecialchars($get['email']);
+            $website    = htmlspecialchars($get['url']); 
+            $message    = htmlspecialchars(nl2br($get['comment']));
+            $time       = time();
+            $pid        = $flexformData['dataPid'];
+            $uid        = $get['uid'];
+            $hidden     = $flexformData['comments'];
+            
+            $data = [
+                'pid' => $pid,
+                'bloguid' => $uid,
+                'name' => $name,
+                'email' => $email,
+                'url' => $website,
+                'comment' => $message,
+                'time' => $time,
+                'hidden' => $hidden
+            ];
+
+            $insert = $this->postRepository->newCommentWrite($data);
+            if(isset($insert)) {
+                // Redirect to article
+                $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'success' => 1]);
+                $uriWithHash = $uri . '#comments';
+                return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
+            }
+        }
 
         return $this->htmlResponse(); 
     }

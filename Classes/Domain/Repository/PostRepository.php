@@ -15,6 +15,27 @@ use TYPO3\CMS\Extbase\Persistence\QueryInterface;
 
 class PostRepository extends Repository
 {
+    public function newCommentWrite($insert_array) {
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_blogext_domain_model_comments');
+        $affectedRows = $queryBuilder
+        ->insert('tx_blogext_domain_model_comments')
+        ->values([
+            'pid' => $insert_array['pid'],
+            'tstamp' => $insert_array['time'],
+            'crdate' => $insert_array['time'],
+            'name' => $insert_array['name'],
+            'email' => $insert_array['email'],
+            'url' => $insert_array['url'],
+            'comment' => $insert_array['comment'],
+            'bloguid' => $insert_array['bloguid'],
+            'hidden' => $insert_array['hidden']
+        ])
+        ->executeStatement();
+        
+        $Uid = $queryBuilder->getConnection()->lastInsertId();
+        
+        return $Uid;
+}
 
     public function findBlogByUid(int $uid)
     {

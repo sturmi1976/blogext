@@ -36,6 +36,16 @@ article.blogListArticle {
     margin-bottom: 1.9rem;
  }
 
+ /* Comment form fields */
+form.comment-form input.textfield {
+    padding-left: 2.5rem;
+}
+form.comment-form textarea.text {
+    padding:2.5rem !important;
+    padding-top:1.5rem !important;
+    resize: none;
+}
+
 
  /* Pagination */
 

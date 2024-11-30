@@ -43,21 +43,41 @@
         <div class="container-fluid m-0 p-0">
             <div class="row m-0 p-0">
                 <div class="col-12 m-0 p-0">
+                    <hr />
                     <h2>{f:translate(key: 'comment_headline', extensionName: 'Blogext')}</h2>
                 </div>
+                <f:if condition="{blog.success} == 1">
+                    <div class="alert alert-success" role="alert">
+                        <h3>Vielen Dank für dein Kommentar!</h3>
+                        <p>Dein Beitrag wird nach erfolgreicher Überprüfung freigeschaltet!</p>
+                      </div>
+                </f:if>
                 <!-- Comment Form -->
-                <f:form action="writeComment" name="comment" class="m-0 p-0">
+                <f:form action="writeComment" name="comment" class="comment-form m-0 p-0">
                     <div class="col-12">
-                        <f:form.textarea name="comment" class="form-control m-0 p-0" id="comment" additionalAttributes="{placeholder: 'Deine Nachricht', rows: '10'}" />
-                        <f:form.textfield name="name" class="form-control form-control-lg" id="name" additionalAttributes="{placeholder: 'Dein Name'}" />
-                        <f:form.textfield name="email" class="form-control form-control-lg" id="email" additionalAttributes="{placeholder: 'Deine E-Mail Adresse'}" />
-                        <f:form.textfield name="url" class="form-control form-control-lg" id="url" additionalAttributes="{placeholder: 'Website'}" />
+                        <div style="position: relative; display: inline-block; width: 100%;">
+                            <f:form.textarea name="comment" required="required" class="form-control m-0 p-0 text" id="comment" additionalAttributes="{placeholder: 'Deine Nachricht', rows: '10'}" />
+                            <i class="fa-solid fa-message" style="position: absolute; left: 8px; top: 10%; transform: translateY(-10%);"></i>
+                        </div>
+                        <div style="position: relative; display: inline-block; width: 100%;">
+                            <f:form.textfield name="name" class="form-control form-control-lg textfield" id="name" additionalAttributes="{placeholder: 'Dein Name'}" />
+                            <i class="fa-solid fa-user" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%);"></i>
+                        </div>
+                        <div style="position: relative; display: inline-block; width: 100%;">
+                            <f:form.textfield name="email" type="email" class="form-control form-control-lg textfield" id="email" additionalAttributes="{placeholder: 'Deine E-Mail Adresse'}" />
+                            <i class="fa-solid fa-envelope" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%);"></i>
+                        </div>
+                        <div style="position: relative; display: inline-block; width: 100%;">
+                            <f:form.textfield name="url" type="url" class="form-control form-control-lg textfield" id="url" additionalAttributes="{placeholder: 'Website'}" />
+                            <i class="fa-solid fa-globe" style="position: absolute; left: 8px; top: 50%; transform: translateY(-50%);"></i>
+                        </div>
+                    </div> 
                         <f:form.hidden name="uid" value="{blog.blog.0.uid}" />
-                        <f:form.submit value="Nachricht senden" name="submit" class="btn btn-primary" />
+                        <f:form.submit value="{f:translate(key: 'comment_send', extensionName: 'Blogext')}" name="submit" class="btn btn-primary" />
                     </div>
                 </f:form>
             </div>
             
         </div>
-    </f:if>
+    </f:if> 
 </section>

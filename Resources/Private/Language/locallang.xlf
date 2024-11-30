@@ -26,6 +26,14 @@
         <source>Write a comment</source>
         <target>Kommentar schreiben</target>
       </trans-unit>
+      <trans-unit id="backlinktext">
+        <source>Back to overview</source>
+        <target>Zurück zur Übersicht</target>
+      </trans-unit>
+      <trans-unit id="comment_send">
+        <source>Comment send</source>
+        <target>Kommentar abschicken</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
