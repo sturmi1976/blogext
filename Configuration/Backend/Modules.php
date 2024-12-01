@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 use Lanius\Blogext\Backend\Controller\BlogBackendController;
 
-
+/*
 return [
     'blogcategory' => [
         'labels' => 'LLL:EXT:blogext/Resources/Private/Language/Module/locallang_modulcategory.xlf',
@@ -28,3 +28,4 @@ return [
     ],
    
 ];
+*/

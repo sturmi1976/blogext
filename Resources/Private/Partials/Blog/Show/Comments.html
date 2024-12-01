@@ -1,0 +1,17 @@
+
+<ul class="comments">
+    <f:for each="{comments}" as="comment">
+            <li>
+                <article>
+                    <header>
+                        <h3>{comment.name}</h3>
+                        <time datetime="{f:format.date(format: '%Y-%m-%dT%H:%m', date: '{comment.crdate}')}">
+                            <f:format.date format="%d. %B %Y">{comment.crdate}</f:format.date>
+                        </time> 
+                    </header>
+                    <f:format.nl2br>{comment.comment}</f:format.nl2br>
+                </article>
+            </li>
+            <!-- Weitere Kommentare hier -->
+    </f:for>
+</ul>

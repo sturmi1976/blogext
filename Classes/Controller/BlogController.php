@@ -293,6 +293,12 @@ class BlogController extends ActionController
         // Daten an das Fluid-Template übergeben
         $this->view->assign('captchaImage', $captchaImage);
 
+        // Comments counts
+        $count = $this->postRepository->findCommentsCount($get['blogUid']);
+
+        // Comments load
+        $comments = $this->postRepository->findCommentsByBloguid($get['blogUid']);
+        
 
         $this->view->assign('blog', [
             'set_backlink' => $set_backlink,
@@ -300,9 +306,19 @@ class BlogController extends ActionController
             'author' => $author,
             'categories' => $cat,
             'tt_content' => $tt_content,
+            'count' => $count,
             'success' => $success,
-            'captcha_false' => $captcha_false
+            'captcha_false' => $captcha_false,
+            'comments' => $comments
         ]);
+
+
+        if(isset($get['captcha_false'])) {
+            $this->view->assign('name', $get['name']);
+            $this->view->assign('email', $get['email']);
+            $this->view->assign('url', $get['url']);
+            $this->view->assign('comment', $get['comment']);
+        }
 
         return $this->htmlResponse(); 
 
@@ -405,9 +421,6 @@ class BlogController extends ActionController
 
         // Captcha nach Validierung löschen
         $this->clearCaptchaFromSession();
-
-        // Weiterleitung oder erneute Darstellung des Formulars
-        //$this->redirect('show');
     }
 
 
@@ -424,7 +437,7 @@ class BlogController extends ActionController
             $name       = htmlspecialchars($get['name']);
             $email      = htmlspecialchars($get['email']);
             $website    = htmlspecialchars($get['url']); 
-            $message    = htmlspecialchars(nl2br($get['comment']));
+            $message    = htmlspecialchars($get['comment']);
             $time       = time();
             $pid        = $flexformData['dataPid'];
             $uid        = $get['uid'];
@@ -452,7 +465,7 @@ class BlogController extends ActionController
                 return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
             }
             }else{
-                $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'captcha_false' => 1]);
+                $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'captcha_false' => 1, 'name' => $name, 'email' => $email, 'url' => $website, 'comment' => $message]);
                 $uriWithHash = $uri . '#comments';
                 return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
             }

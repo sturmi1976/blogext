@@ -34,6 +34,14 @@
         <source>Comment send</source>
         <target>Kommentar abschicken</target>
       </trans-unit>
+      <trans-unit id="comment_count">
+        <source>Number of comments</source>
+        <target>Anzahl der Kommentare</target>
+      </trans-unit>
+      <trans-unit id="no_comments">
+        <source>No comments available</source>
+        <target>Keine Kommentare vorhanden</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -94,5 +94,19 @@ class PostRepository extends Repository
         return $result;
     }
 
+    public function findCommentsCount($blogUid) {
+        $query = $this->createQuery();
+        $query->statement('SELECT COUNT(uid) AS count FROM tx_blogext_domain_model_comments WHERE bloguid="'.$blogUid.'" AND hidden="0" AND deleted="0"');
+        $result = $query->execute(true);
+        return $result;  
+    }
+
+    public function findCommentsByBloguid($bloguid) {
+        $query = $this->createQuery();
+        $query->statement('SELECT * FROM tx_blogext_domain_model_comments WHERE hidden="0" AND deleted="0" AND bloguid="'.$bloguid.'" ORDER BY crdate DESC');
+        $result = $query->execute(true); 
+        return $result; 
+    }
+
 
 }
