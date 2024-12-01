@@ -7,13 +7,13 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
 
 return [
     'blogcategory' => [
-        'labels' => 'LLL:EXT:blogext/Resources/Private/Language/locallang_modulcategory.xlf',
+        'labels' => 'LLL:EXT:blogext/Resources/Private/Language/Module/locallang_modulcategory.xlf',
         'position' => ['after' => 'web'],
         'iconIdentifier' => 'content-text',
         'navigationComponentId' => '', // Optional, wenn eine Navigation benötigt wird
     ],
     't3blog' => [
-        'parent' => 'blogcategory',
+        'parent' => 'web',
         'position' => ['after' => 'web'],
         'access' => 'user',
         'workspaces' => 'live',

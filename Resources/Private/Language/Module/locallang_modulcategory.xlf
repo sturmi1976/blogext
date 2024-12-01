@@ -8,6 +8,10 @@
             <trans-unit id="mod.category.description" xml:space="preserve">
                 <source>This is my custom module category.</source>
             </trans-unit>
+            <trans-unit id="blogcategory">
+                <source>Blog Kategorie</source>
+                <target>Blog Kategorie</target>
+            </trans-unit>
         </body>
     </file>
 </xliff>
