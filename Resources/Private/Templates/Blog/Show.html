@@ -52,6 +52,12 @@
                         <p>Dein Beitrag wird nach erfolgreicher Überprüfung freigeschaltet!</p>
                       </div>
                 </f:if>
+                <f:if condition="{blog.captcha_false} == 1">
+                    <div class="alert alert-danger" role="alert">
+                        <h3>Folgender Fehler ist aufgetreten:</h3>
+                        <p>Du hast einen falschen Captcha-Code eingegeben.</p>
+                      </div>
+                </f:if>
                 <!-- Comment Form -->
                 <f:form action="writeComment" name="comment" class="comment-form m-0 p-0">
                     <div class="col-12">
@@ -73,6 +79,10 @@
                         </div>
                     </div> 
                         <f:form.hidden name="uid" value="{blog.blog.0.uid}" />
+                        <div style="position: relative; display: inline-block; width: 100%;">
+                            <img src="{captchaImage}" alt="Captcha">
+                            <f:form.textfield name="captcha_input" id="captcha" required="required" class="form-control form-control-lg textfield" additionalAttributes="{placeholder: 'Bitte gebe die Zeichen aus dem Bild ein'}" />
+                        </div>
                         <f:form.submit value="{f:translate(key: 'comment_send', extensionName: 'Blogext')}" name="submit" class="btn btn-primary" />
                     </div>
                 </f:form>

@@ -12,6 +12,8 @@ use TYPO3\CMS\Extbase\Mvc\Web\Routing\UriBuilder;
 use TYPO3\CMS\Extbase\Mvc\Request; 
 use TYPO3\CMS\Extbase\Mvc\RequestInterface;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Session\SessionManager;
+use TYPO3\CMS\Core\Session\SessionInterface;
 
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -26,7 +28,8 @@ use TYPO3\CMS\Core\Mail\Mailer;
 
 class BlogController extends ActionController
 {
-    
+ 
+    private const SESSION_KEY = 'captcha_text';
     
 
     /**
@@ -208,6 +211,13 @@ class BlogController extends ActionController
             $success = 0;
         }
 
+        if(isset($get['captcha_false'])) {
+            $captcha_false = 1;
+        }else {
+            $captcha_false = 0;
+        }
+
+
         $blog = $this->postRepository->findBlogByUid($get['blogUid']);
 
         // Content Elemente laden aus tt_content
@@ -276,6 +286,13 @@ class BlogController extends ActionController
             );
         }
 
+        // Captcha generieren
+        $captchaImage = $this->generateCaptcha();
+
+
+        // Daten an das Fluid-Template übergeben
+        $this->view->assign('captchaImage', $captchaImage);
+
 
         $this->view->assign('blog', [
             'set_backlink' => $set_backlink,
@@ -283,7 +300,8 @@ class BlogController extends ActionController
             'author' => $author,
             'categories' => $cat,
             'tt_content' => $tt_content,
-            'success' => $success
+            'success' => $success,
+            'captcha_false' => $captcha_false
         ]);
 
         return $this->htmlResponse(); 
@@ -291,6 +309,106 @@ class BlogController extends ActionController
 
     }
 
+
+
+    private function generateCaptcha(): string
+    {
+        // Captcha-Code generieren
+        $captchaText = $this->generateCaptchaText();
+        // Captcha in der Session speichern
+        $this->storeCaptchaInSession($captchaText);
+
+        // Captcha-Bild erstellen
+        return $this->createCaptchaImage($captchaText);
+    }
+
+    private function generateCaptchaText(int $length = 6): string
+    {
+        $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        return substr(str_shuffle($characters), 0, $length);
+    }
+
+    private function createCaptchaImage(string $text): string
+    {
+        $width = 200;
+        $height = 70;
+        $image = imagecreate($width, $height);
+
+        // Farben definieren
+        $backgroundColor = imagecolorallocate($image, 255, 255, 255);
+        $textColor = imagecolorallocate($image, 0, 0, 0);
+        $lineColor = imagecolorallocate($image, 64, 64, 64);
+
+        // Störungen hinzufügen
+        for ($i = 0; $i < 10; $i++) {
+            imageline($image, rand(0, $width), rand(0, $height), rand(0, $width), rand(0, $height), $lineColor);
+        }
+
+        // Text auf das Bild setzen
+        $font = __DIR__ . '/../../Resources/Private/Fonts/OpenSans-Bold.ttf'; // Pfad zur Schriftart
+        $fontPath = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('blogext') . 'Resources/Public/Fonts/OpenSans-Bold.ttf';
+        $fontSize = 24;
+        if (file_exists($fontPath)) {
+            imagettftext($image, 28, rand(-10, 10), 40, 50, $textColor, $fontPath, $text);
+        } else {
+            imagestring($image, 5, 50, 25, $text, $textColor);
+        }
+
+        // Bild als Base64-String kodieren
+        ob_start();
+        imagepng($image);
+        $imageData = ob_get_clean();
+        imagedestroy($image);
+
+        return 'data:image/png;base64,' . base64_encode($imageData);
+    }
+
+    public function storeCaptchaInSession(string $captchaText): void
+    {
+        session_start();
+        $_SESSION['captcha_text'] = $captchaText;
+    }
+
+    public function getCaptchaFromSession(): ?string
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        return $_SESSION['captcha_text'] ?? null;
+    }
+
+    public function clearCaptchaFromSession(): void
+    {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        unset($_SESSION['captcha_text']);
+    }
+
+
+    public function verifyCaptcha()
+    {
+        // Benutzerinput abrufen
+        $userInput = $this->request->getArguments('captcha_input');
+        
+        // Captcha-Text aus der Session abrufen
+        $storedCaptcha = $this->getCaptchaFromSession();
+
+        // Validierung
+        if ($userInput['captcha_input'] == $storedCaptcha) {
+            //$this->addFlashMessage('Captcha korrekt!');
+            return true;
+        } else {
+            //$this->addFlashMessage('Captcha falsch. Bitte versuchen Sie es erneut.', '', \TYPO3\CMS\Core\Messaging\AbstractMessage::ERROR);
+            return false;
+        }
+
+        // Captcha nach Validierung löschen
+        $this->clearCaptchaFromSession();
+
+        // Weiterleitung oder erneute Darstellung des Formulars
+        //$this->redirect('show');
+    }
 
 
     public function writeCommentAction(): ResponseInterface
@@ -323,6 +441,9 @@ class BlogController extends ActionController
                 'hidden' => $hidden
             ];
 
+            // Captcha prüfen
+            if($this->verifyCaptcha() == true) {
+
             $insert = $this->postRepository->newCommentWrite($data);
             if(isset($insert)) {
                 // Redirect to article
@@ -330,6 +451,12 @@ class BlogController extends ActionController
                 $uriWithHash = $uri . '#comments';
                 return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
             }
+            }else{
+                $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'captcha_false' => 1]);
+                $uriWithHash = $uri . '#comments';
+                return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
+            }
+            
         }
 
         return $this->htmlResponse(); 
