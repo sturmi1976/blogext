@@ -49,9 +49,12 @@ class CategorymenuController extends ActionController
      */
     public function listAction(): ResponseInterface 
     {
+        $catUid="";
         if(isset($_GET['tx_blogext_bloglist'])) {
             $get = $_GET['tx_blogext_bloglist'];
+            if(isset($get['categoryUid'])) {
                 $catUid = $get['categoryUid'];
+            }
             }
             else {
                 $catUid = "";
