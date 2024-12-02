@@ -17,10 +17,18 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
     );
  })();
 
+ (function () {
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+       'Blogext',
+       'blogcategory',
+       [
+             \Lanius\Blogext\Controller\CategorymenuController::class => 'list'   
+       ]
+    );
+ })();
 
 
 
-// Typoscript load
 ExtensionManagementUtility::addTypoScript(
     'blogext',
     'setup',

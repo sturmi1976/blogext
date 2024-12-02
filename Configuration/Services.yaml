@@ -7,6 +7,10 @@ services:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'
   Lanius\Blogext\PageTitle\TitleProvider: null
+  Lanius\Blogext\Controller\CategorymenuController:
+    class: Lanius\Blogext\Controller\CategorymenuController
+    tags:
+      - name: controller.service_arguments
   Lanius\Blogext\Backend\Controller\BlogBackendController:
     tags:
       - backend.controller

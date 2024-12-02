@@ -185,7 +185,7 @@ class BlogController extends ActionController
 
 
 
-        return $this->htmlResponse(); 
+        return $this->htmlResponse();  
 
     }
 

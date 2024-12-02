@@ -10,9 +10,9 @@ plugin.tx_seo {
                         sortField = title
                         lastModifiedField = tstamp
                         recursive = 1
-                        pid = 22
+                        pid = {$blog.pid}
                         url {
-                            pageId = 21
+                            pageId = {$blog.pageid}
                             fieldToParameterMap {
                                 uid = tx_blogext_bloglist[blogUid]
                             }

@@ -1,0 +1,23 @@
+categories:
+  UIDS:
+    label: 'Blogext: Page and folder UIDs' # (1)
+  blogext.pid:
+    label: 'Pid (data folder)' # (2)
+    parent: UIDS
+  blogext.pageid:
+    label: 'Page ID (Plugin)'
+    parent: UIDS
+
+
+settings:
+  blog.pid:
+    label: 'Pid'
+    category: blogext.pid
+    type: string
+    default: ''
+
+  blog.pageid:
+    label: 'Page ID (Plugin)'
+    category: blogext.pageid
+    type: string
+    default: '' 

@@ -1,0 +1,13 @@
+
+<ul class="blogext-categorymenu">
+    <li class="heading"><h3>Kategorien</h3></li>
+    <f:for each="{categories.data}" as="category" iteration="i">
+        <li class="cat{f:if(condition: '{catUid} == {category.uid}', then: ' active', else: '')}{f:if(condition:'{i.isFirst}',then:' first')} {f:if(condition:'{i.isLast}',then:' last')}">
+            <dfn>{i.cycle}:</dfn>
+            <f:link.action action="category" controller="Blog" pageUid="{pageid}" arguments="{categoryUid: category.uid}" class="category-link {f:if(condition: '{catUid} == {category.uid}', then: 'active', else: '')}">
+                <span class="linktitle">{category.title}</span>
+            </f:link.action>
+            <span class="usb">.</span>
+        </li>
+    </f:for>
+</ul>

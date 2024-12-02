@@ -19,7 +19,6 @@ class CategoryRepository extends Repository
         $query = $this->createQuery();
 
         if (is_array($category)) {
-            // Mehrere Kategorien als Array -> Umwandeln in eine WHERE-Bedingung mit OR
             $conditions = [];
             foreach ($category as $cat) {
                 $conditions[] = 'FIND_IN_SET(?, categories)';
@@ -27,7 +26,6 @@ class CategoryRepository extends Repository
             $categoryCondition = implode(' OR ', $conditions);
             $queryParams = array_merge([$pid], $category);
         } else {
-            // Einzelne Kategorie
             $categoryCondition = 'FIND_IN_SET(?, categories)';
             $queryParams = [$pid, $category];
         }
@@ -77,5 +75,12 @@ class CategoryRepository extends Repository
         return $result;
     }
         
+
+    public function getCategoryMenu() {
+        $query = $this->createQuery();
+        $query->statement('SELECT * FROM tx_blogext_domain_model_category WHERE hidden="0" AND deleted="0"');
+        $result = $query->execute(true);
+        return $result;
+    }
 
 }
