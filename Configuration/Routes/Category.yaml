@@ -1,0 +1,28 @@
+routeEnhancers:
+  Category:
+    type: Extbase
+    extension: Blogext
+    plugin: Bloglist
+    routes:
+      - routePath: '/{category}'
+        _controller: 'Blog::category'
+        _arguments:
+          category: categoryUid
+      - routePath: '/{seite}'
+        _controller: 'Blog::category'
+        _arguments:
+          seite: seite
+    defaultController: 'Blog::list'
+    defaults:
+      seite: '1'
+    requirements:
+      seite: '\d+' # Nur Zahlen erlaubt
+    aspects:
+      category:
+        type: PersistedAliasMapper
+        tableName: tx_blogext_domain_model_category
+        routeFieldName: url_segment
+      seite:
+        type: StaticRangeMapper
+        start: '1'
+        end: '1000'

@@ -1,1 +1,47 @@
-Template für die Kategorien
+
+
+<div class="container-fluid">
+    <div class="row">
+        <f:for each="{blogs}" as="blog" iteration="i">
+
+                <div class="col-12 col-md-6">
+                    <article id="blogUid-{blog.blog.uid}" class="blogListArticle">
+                        <header>
+                            <f:link.action action="show" controller="Blog" arguments="{blogUid: blog.blog.uid}" class="blogListLink">
+                                <h2>{blog.blog.title}</h2>
+                            </f:link.action>
+                            
+                            <p class="created_at"><i class="fa-regular fa-calendar-days" title="Verfasst am"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{f:translate(key: 'created', extensionName: 'Blogext')}: <f:format.date format="%d. %B %Y">{blog.blog.crdate}</f:format.date></p>
+                            <p class="created_from"><i class="fa-solid fa-user" title="Autor"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{f:translate(key: 'author', extensionName: 'Blogext')}: {blog.blog.author.realName}</p>
+                            <div class="categories-all">
+                                <p> <i class="fa-solid fa-list" title="Kategorie"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+                                <p class="categories-button">
+                                    <f:for each="{blog.blog.categories}" as="category" iteration="i">
+                                        <f:link.action action="category" controller="Blog" arguments="{categoryUid: category.0.uid}"><span class="category_tag">{category.0.title}</span></f:link.action>
+                                    </f:for>
+                                </p>
+                            </div>
+                            
+                        </header>
+                        <f:format.html>{blog.blog.teaser}</f:format.html>
+                        <footer class="readMore">
+                            <f:link.action action="show" controller="Blog" arguments="{blogUid: blog.blog.uid}" class="btn btn-secondary">Weiterlesen</f:link.action>
+                        </footer>
+                    </article>
+                </div>
+
+        <f:if condition="{i.isEven}">
+            <hr />
+        </f:if>
+
+        </f:for>
+
+        <f:if condition="{paging}">
+            <div class="col-12">
+                {paging -> f:format.raw()}
+            </div>
+        </f:if>
+        
+
+    </div>
+</div>

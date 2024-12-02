@@ -4,7 +4,15 @@
             <li>
                 <article>
                     <header>
-                        <h3>{comment.name}</h3>
+                        <f:if condition="{comment.url}">
+                            <f:then>
+                                <h3><f:link.external uri="{comment.url}" target="_blank">{comment.name}</f:link.external></h3>
+                            </f:then>
+                            <f:else>
+                                <h3>{comment.name}</h3>
+                            </f:else>
+                        </f:if>
+                        
                         <time datetime="{f:format.date(format: '%Y-%m-%dT%H:%m', date: '{comment.crdate}')}">
                             <f:format.date format="%d. %B %Y">{comment.crdate}</f:format.date>
                         </time> 
