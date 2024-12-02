@@ -1,3 +1,6 @@
+@import 'EXT:blogext/Configuration/Sets/T3blog/Libs/sitemap.typoscript'
+
+
 page.includeCSS {
     blogCSS = EXT:blogext/Resources/Public/Css/blog.css
 }

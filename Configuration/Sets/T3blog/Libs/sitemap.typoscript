@@ -1,0 +1,31 @@
+
+plugin.tx_seo {
+    config {
+        xmlSitemap {
+            sitemaps {
+                blog {
+                    provider = TYPO3\CMS\Seo\XmlSitemap\RecordsXmlSitemapDataProvider
+                    config {
+                        table = tx_blogext_domain_model_post
+                        sortField = title
+                        lastModifiedField = tstamp
+                        recursive = 1
+                        pid = 22
+                        url {
+                            pageId = 21
+                            fieldToParameterMap {
+                                uid = tx_blogext_bloglist[blogUid]
+                            }
+                            additionalGetParameters {
+                                tx_blogext_bloglist.controller = Blog
+                                tx_blogext_bloglist.action = show
+                            }
+                            useCacheHash = 1
+                        }
+                    }
+                }
+
+            }
+        }
+    }
+}
