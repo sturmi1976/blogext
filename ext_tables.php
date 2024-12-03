@@ -42,3 +42,23 @@
         }
     }'
 );
+
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    'mod {
+        wizards.newContentElement.wizardItems.blogext {
+            header = Blog
+            elements {
+                blogrss {
+                    iconIdentifier = content-text
+                    title = Blog: RSS Feed
+                    description = RSS Feed für die Blogbeiträge
+                    tt_content_defValues {
+                        CType = list
+                        list_type = blogext_blogrss
+                    }
+                }
+            } 
+            show = *
+        }
+    }'
+);

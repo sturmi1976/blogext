@@ -27,6 +27,16 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
     );
  })();
 
+ (function () {
+   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+      'Blogext',
+      'blogrss',
+      [
+            \Lanius\Blogext\Controller\FeedController::class => 'rss'   
+      ]
+   );
+})();
+
 
 
 ExtensionManagementUtility::addTypoScript(

@@ -156,6 +156,19 @@ ul.blogext-categorymenu li.cat a:hover::before {
     opacity: 1; 
     left: 5px; 
   }
-ul.blogext-categorymenu li.cat a.active {font-weight: bold;}
-
+ul.blogext-categorymenu li.cat a.active {font-weight: bold; padding-left:0.9rem;}
+ul.blogext-categorymenu li.cat a.active::before {
+    content: ''; 
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-bottom: 5px solid transparent;
+    border-left: 5px solid #e7e4e4; 
+    transition: opacity 0.3s ease, left 0.3s ease;
+    opacity: 1; 
+    left: 5px; 
+}
 

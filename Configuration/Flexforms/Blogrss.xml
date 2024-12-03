@@ -1,0 +1,48 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <sheetTitle>
+                    Allgemeine Einstellungen
+                </sheetTitle>
+                <type>array</type>
+                <el>
+                    <settings.pid>
+                        <label>
+                            PageUID - Seite wo sich das Bloglist-Plugin befindet.
+                        </label>
+                        <config>
+                            <type>group</type>
+                            <allowed>pages</allowed>
+                            <maxitems>1</maxitems>
+                            <minitems>1</minitems>
+                            <size>1</size>
+                            <suggestOptions>
+                                <default>
+                                    <additionalSearchFields>nav_title, alias, url</additionalSearchFields>
+                                    <addWhere>AND pages.doktype = 1</addWhere>
+                                </default>
+                            </suggestOptions>
+                        </config>
+                    </settings.pid>
+
+                    <settings.dataPid>
+                      <label>
+                        DataUID - Ordner mit den Datensätzen
+                      </label>
+                      <config>
+                          <type>group</type>
+                          <internal_type>db</internal_type>
+                          <allowed>pages</allowed>
+                          <maxitems>1</maxitems>
+                          <minitems>1</minitems>
+                          <size>1</size>
+                          <addWhere>AND pages.doktype = 254</addWhere>
+                      </config>
+                    </settings.dataPid>
+                    
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

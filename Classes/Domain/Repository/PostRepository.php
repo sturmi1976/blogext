@@ -57,7 +57,7 @@ class PostRepository extends Repository
     public function findAllBlogArticle(int $pid)
     {
         $query = $this->createQuery();
-        $query->statement('SELECT * FROM tx_blogext_domain_model_post WHERE pid="'.$pid.'" AND hidden="0" AND deleted="0" AND sys_language_uid="'.$GLOBALS['TSFE']->sys_language_uid.'" ORDER BY crdate DESC');
+        $query->statement('SELECT * FROM tx_blogext_domain_model_post WHERE pid="'.$pid.'" AND hidden="0" AND deleted="0" ORDER BY crdate DESC');
         $result = $query->execute(true);
         return $result;
     }
