@@ -1,6 +1,41 @@
 @import 'EXT:blogext/Configuration/Sets/T3blog/Libs/sitemap.typoscript'
 
 
+plugin.tx_blogext {
+    view {
+        templateRootPaths {
+            0 = EXT:blogext/Resources/Private/Templates/
+            10 = {$blog.templates}
+        }
+        partialRootPaths {
+            0 = EXT:blogext/Resources/Private/Partials/
+            10 = {$blog.partials}
+        }
+        layoutRootPaths {
+            0 = EXT:blogext/Resources/Private/Layouts/
+            10 = {$blog.layouts}
+        }
+    }
+} 
+
+
+
+plugin.tx_indexedsearch.view {
+  templateRootPaths {
+    0 = EXT:indexed_search/Resources/Private/Templates/
+    10 = {$plugin.tx_indexedsearch.view.templateRootPath ?? $indexedsearch.view.templateRootPath}
+    20 = EXT:my_extension/Resources/Private/Templates/
+  }
+
+  partialRootPaths {
+    0 = EXT:indexed_search/Resources/Private/Partials/
+    10 = {$plugin.tx_indexedsearch.view.partialRootPath ?? $indexedsearch.view.partialRootPath}
+    20 = EXT:my_extension/Resources/Private/Partials/
+  }
+}
+
+
+
 page.includeCSS {
     blogCSS = EXT:blogext/Resources/Public/Css/blog.css
 }

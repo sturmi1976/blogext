@@ -5,6 +5,7 @@ $EM_CONF[$_EXTKEY] = [
     'description' => 'With this record-based extension for TYPO3, it is easy to run a blog on your TYPO3 website, including RSS functionality and integration into the Google Sitemap with route enhancers for SEO-friendly links.',
     'category' => 'Frontend Plugins', 
     'version' => '1.2.0',
+    'category' => 'plugin',
     'state' => 'stable',
     'author' => 'Andre Lanius',
     'author_email' => 'info@andre-lanius.site',

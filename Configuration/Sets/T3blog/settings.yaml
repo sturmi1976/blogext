@@ -1,0 +1,6 @@
+blogext:
+  view:
+    templateRootPath: 'EXT:sitepackage/Resources/Private/Templates/'
+    partialRootPath: 'EXT:sitepackage/Resources/Private/Partials/'
+    layoutRootPath: 'EXT:sitepackage/Resources/Private/Layouts/'
+

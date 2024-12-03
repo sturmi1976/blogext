@@ -1,11 +1,14 @@
 categories:
   UIDS:
-    label: 'Blogext: Page and folder UIDs' # (1)
+    label: 'Blog Extension (blogext):' # (1)
   blogext.pid:
     label: 'Pid (data folder)' # (2)
     parent: UIDS
   blogext.pageid:
     label: 'Page ID (Plugin)'
+    parent: UIDS
+  blogext.templates:
+    label: 'Layouts, Templates, Partials'
     parent: UIDS
 
 
@@ -19,5 +22,23 @@ settings:
   blog.pageid:
     label: 'Page ID (Plugin)'
     category: blogext.pageid
+    type: string
+    default: '' 
+
+  blog.templates:
+    label: 'TemplateRootPath'
+    category: blogext.templates
+    type: string
+    default: '' 
+
+  blog.partials:
+    label: 'PartialRootPath'
+    category: blogext.templates
+    type: string
+    default: '' 
+
+  blog.layouts:
+    label: 'LayoutRootPath'
+    category: blogext.templates
     type: string
     default: '' 
