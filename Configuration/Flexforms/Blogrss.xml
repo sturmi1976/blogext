@@ -40,6 +40,34 @@
                           <addWhere>AND pages.doktype = 254</addWhere>
                       </config>
                     </settings.dataPid>
+
+                    <settings.title>
+                        <label>
+                            Titel des Blogs
+                        </label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </settings.title>
+
+                    <settings.desc>
+                        <label>
+                            Kurzbeschreibung des Blogs
+                        </label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                    </settings.desc>
+
+                    <settings.domain>
+                        <label>
+                            Domain für den RSS Feed eingeben (ohne abschließenden Slash)
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <default>https://www.domain.de</default>
+                        </config>
+                    </settings.domain>
                     
                 </el>
             </ROOT>
