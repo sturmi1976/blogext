@@ -26,4 +26,5 @@ page.headerdata.150.value = <link rel="alternate" type="application/rss+xml" tit
 ## Links
 | Links | Description |
 |-------|-------------|
-|https://extensions.typo3.org/extension/blogext|Desc|
+|https://extensions.typo3.org/extension/blogext|Extension available in the TYPO3 TER.|
+|https://packagist.org/packages/lanius/blogext|Packagist
