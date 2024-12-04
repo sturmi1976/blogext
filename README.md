@@ -15,6 +15,9 @@ Now go to Pages -> General -> Sets (Site Sets) and add the Site Set for the Blog
 
 Under Settings -> Edit Settings, fill in the fields related to the Blog Extension.
 
+## Add RSS feed
+Create a page in the page tree where you add the Blog: RSS Feed plugin. After adding the RSS plugin, fill out the Flexform fields in the plugin. Then, you can integrate the feed into the head using the following TypoScript.
+
 ```typoscript
 page.headerdata.150 = TEXT
 page.headerdata.150.value = <link rel="alternate" type="application/rss+xml" title="My blog" href="https://example.com/rss-feed">
