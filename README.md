@@ -22,6 +22,7 @@ Create a page in the page tree where you add the Blog: RSS Feed plugin. After ad
 page.headerdata.150 = TEXT
 page.headerdata.150.value = <link rel="alternate" type="application/rss+xml" title="My blog" href="https://example.com/rss-feed">
 
+## Links
 | Links | Description |
 |-------|-------------|
 |[https://extensions.typo3.org/extension/blogext](Blog Extension - TER)|Desc|
