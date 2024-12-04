@@ -6,3 +6,7 @@ To install the extension in TYPO3, enter the following command in the console wh
 
 `composer req lanius/blogext`
 
+Next, log in to the TYPO3 backend, navigate to Administration Tools -> Maintenance -> Analyze Database, and install the database tables.
+
+Then, create a page in your page tree to store the Blog List plugin and create a folder where the records (blogs, categories, etc.) will be stored.
+In your Blog List plugin, fill out the Flexform.
