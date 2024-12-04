@@ -86,13 +86,12 @@
                 </f:form>
             </div>
             
-        </div>
     </f:if> 
 
-    
+
 
     <!-- Comments -->
-     <hr />
+    <hr />
     <h2>{f:translate(key: 'comment_headline', extensionName: 'Blogext')}</h2>
     <small class="blogCount">{f:translate(key: 'comment_count', extensionName: 'Blogext')}: {blog.count.0.count}</small>
      <f:if condition="{blog.count.0.count} == 0">
