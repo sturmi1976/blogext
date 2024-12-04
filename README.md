@@ -10,3 +10,7 @@ Next, log in to the TYPO3 backend, navigate to Administration Tools -> Maintenan
 
 Then, create a page in your page tree to store the Blog List plugin and create a folder where the records (blogs, categories, etc.) will be stored.
 In your Blog List plugin, fill out the Flexform.
+
+```typoscript
+page.headerdata.150 = TEXT
+page.headerdata.150.value = <link rel="alternate" type="application/rss+xml" title="My blog" href="https://example.com/rss-feed">
