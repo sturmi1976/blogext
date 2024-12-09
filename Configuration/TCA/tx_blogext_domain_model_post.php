@@ -16,7 +16,7 @@ return [
         'searchFields' => 'title,description',
         'iconfile' => 'EXT:blogext/Resources/Public/Icons/tx_yourextensionname_domain_model_yourtable.svg',
         'typeicon_classes' => [
-            'default' => 'mimetypes-x-content-text',
+            'default' => 'mimetypes-x-content-text', 
         ],
     ],
     'types' => [

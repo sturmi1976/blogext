@@ -1,10 +1,7 @@
 @import 'EXT:blogext/Configuration/Sets/T3blog/Libs/sitemap.typoscript'
 
 
-
-
-
-
+/* Frontend TS */
 plugin.tx_blogext {
     view {
         templateRootPaths {
@@ -20,8 +17,21 @@ plugin.tx_blogext {
             10 = {$blog.layouts}
         }
     }
+    settings {
+        pageid = {$blog.pageid}
+        pid = {$blog.pid} 
+    }
+    
 } 
 
+
+/* Backend TS */
+module.tx_blogext {
+    settings {
+        pageid = {$blog.pageid}
+        pid = {$blog.pid} 
+    }
+}
 
 
 page.includeCSS {

@@ -85,6 +85,6 @@ class FeedController extends ActionController
         $rss .= '</channel>';
         $rss .= '</rss>';
 
-        return $rss;
+        return $rss; 
     }
 }

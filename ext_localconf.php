@@ -2,8 +2,9 @@
 
 defined('TYPO3') or die();
 
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Lanius\Blogext\Backend\Controller\BlogBackendController;
 
 
@@ -37,6 +38,13 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
    );
 })();
 
+
+
+
+// CSS for backend
+$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['blogext'] = 'EXT:blogext/Resources/Public/Css/Backend/backend.css?'.time();
+
+ 
 
 
 ExtensionManagementUtility::addTypoScript(

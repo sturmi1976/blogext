@@ -1,0 +1,179 @@
+<link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/Backend/bootstrap.css')}" />
+<link rel="stylesheet" type="text/css" href="{f:uri.resource(path: 'Css/Backend/backend.css')}" />
+<style>
+    html, body {
+overflow: auto;
+height: 100%;
+}
+    /* newBlogLink */
+.newBlogLink {
+    margin-bottom:3.2rem;
+}
+.newBlogLink .newLink {
+    text-decoration: none;
+    color:#fff;
+    display: inline-block;
+    background: #000;
+    padding:10px 15px;
+    border-radius: 10px;
+}
+.newBlogLink .newLink:hover {
+    color:rgb(212, 147, 25);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+.newBlogLink .newLink svg {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+}
+.showIcon svg, .icons {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+}
+.hide-icon svg {
+    fill: red; /* Ändert die Füllfarbe des SVG */
+    stroke: green; /* Ändert die Farbe der Linien */  
+    cursor: pointer;
+}
+
+div.article-list-buttons a {
+    text-decoration: none;
+    color:#000;
+}
+div.blog-article {
+    padding-top:1.1rem;
+    padding-bottom: 1.1rem;
+}
+
+table {
+    background-color:#181818;
+    border-spacing: 1px;
+    border-collapse: separate;
+    margin-bottom: 10rem;
+}
+
+table td {
+    padding:1.1rem 0rem;
+    background-color: #ebebeb;
+}
+
+table tr:hover {
+    background:#979797;
+    cursor: pointer;
+}
+
+table td.align-center {
+    text-align: center;
+}
+iframe {
+  overflow: auto !important;
+}
+</style>
+
+
+<script src="{f:uri.resource(path: 'JavaScript/Backend/jquery-3.6.4.js')}"></script>
+<script src="{f:uri.resource(path: 'JavaScript/Backend/bootstrap.bundle.min.js')}"></script>
+<script src="{f:uri.resource(path: 'JavaScript/Backend/backend.js')}"></script>  
+
+
+<f:if condition="{error}">
+    <f:then>
+        <div class="alert alert-primary text-center" role="alert">
+            {error} 
+        </div>
+    </f:then>
+    <f:else>
+        <f:render partial="BlogBackend/Navigation" arguments="{_all}" />
+        <f:render partial="BlogBackend/Modal" arguments="{_all}" />
+
+
+
+<!--Link zum erstellen eines neuen Blogartikels-->
+<div class="newBlogLink">
+    <f:link.typolink parameter="{new}" class="newLink">
+        <f:format.raw>{newIcon}</f:format.raw>&nbsp;&nbsp;&nbsp; 
+        Neuen Blogartikel erstellen 
+    </f:link.typolink>
+</div>
+
+
+<f:if condition="{deleted}==true">
+    <div class="alert alert-danger text-center" role="alert">
+        <b>Der Blogbeitrag wurde erfolgreich gelöscht.</b>
+    </div>      
+</f:if>
+
+<h1 class="tx-blogext-module">Dashboard</h1>
+
+
+<div class="container-2-col">
+    <div class="article-list column">
+        <div class="header">
+            <h3>Letzte 20 Blogbeiträge</h3>
+        </div>
+        <div class="article-list-count">
+            Blogbeiträge insgesamt: <b>{counts}</b>
+        </div>
+        <div class="article-list-content">
+          
+            <!-- Table -->
+             <table width="100%">
+                <f:for each="{blogs}" as="blog" iteration="i">
+                    <tr>
+                        <td style="display: flex; justify-content: center; align-items: center; height: 100px;">
+                            <div class="icons">
+                                <f:if condition="{blog.hidden}==0">
+                                    <f:then>
+                                        <f:link.typolink title="Beitrag im Frontend anzeigen" class="showIcon" parameter="{pageId}?tx_blogext_bloglist[action]=show&tx_blogext_bloglist[blogUid]={blog.uid}&tx_blogext_bloglist[controller]=Blog" target="_blank">
+                                            <f:format.raw>
+                                                {showIcon}
+                                            </f:format.raw>
+                                        </f:link.typolink>
+                                    </f:then>
+                                    <f:else>
+                                        <div class="hide-icon" title="Datensatz ist nicht sichtbar">
+                                            <f:format.raw>
+                                                <svg title="Datensatz ist nicht sichtbar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zm151 118.3C226 97.7 269.5 80 320 80c65.2 0 118.8 29.6 159.9 67.7C518.4 183.5 545 226 558.6 256c-12.6 28-36.6 66.8-70.9 100.9l-53.8-42.2c9.1-17.6 14.2-37.5 14.2-58.7c0-70.7-57.3-128-128-128c-32.2 0-61.7 11.9-84.2 31.5l-46.1-36.1zM394.9 284.2l-81.5-63.9c4.2-8.5 6.6-18.2 6.6-28.3c0-5.5-.7-10.9-2-16c.7 0 1.3 0 2 0c44.2 0 80 35.8 80 80c0 9.9-1.8 19.4-5.1 28.2zm9.4 130.3C378.8 425.4 350.7 432 320 432c-65.2 0-118.8-29.6-159.9-67.7C121.6 328.5 95 286 81.4 256c8.3-18.4 21.5-41.5 39.4-64.8L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5l-41.9-33zM192 256c0 70.7 57.3 128 128 128c13.3 0 26.1-2 38.2-5.8L302 334c-23.5-5.4-43.1-21.2-53.7-42.3l-56.1-44.2c-.2 2.8-.3 5.6-.3 8.5z"/></svg>                                 
+                                            </f:format.raw>
+                                        </div>
+                                    </f:else>
+                                </f:if>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="article-list-button">
+                                <a href="{blog.url.0}" class="editLink">
+                                    <span>{blog.title}</span> 
+                                </a>
+                            </div>
+                        </td>
+                        <td class="align-center">
+                            <div class="article-list-buttons">
+                                <a href="#" class="delete-link" title="Blogbeitrag löschen" data-href="{f:uri.action(action: 'delete', arguments: {uid: blog.uid})}">
+                                    <span>&#10060;</span> Löschen
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                </f:for>
+            </table>
+        </div>
+    </div>
+
+    <div class="comments-list column">
+        <div class="header">
+            <h3>Letzte 20 Kommentare</h3>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+    </f:else>
+</f:if>
+    
+

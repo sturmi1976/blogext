@@ -62,3 +62,8 @@
         }
     }'
 );
+
+
+
+// CSS for backend
+$GLOBALS['TYPO3_CONF_VARS']['BE']['stylesheets']['blogext'] = 'EXT:blogext/Resources/Public/Css/Backend/backend.css?'.time();

@@ -4,6 +4,9 @@ article.blogListArticle {
 }
 
  article.blogListArticle span.category_tag {
+    display: flex; /* Flexbox verwenden */
+    justify-content: center; /* Horizontale Zentrierung */
+    align-items: center; /* Vertikale Zentrierung */
     background-color:rgb(212, 147, 25);
     font-size: 1em;
      padding:0.5em 1em;
@@ -33,6 +36,8 @@ article.blogListArticle {
  }
 
  article.blogListArticle p.categories-button {
+    display: flex;
+    flex-wrap: wrap;
     margin-bottom: 1.9rem;
  }
 

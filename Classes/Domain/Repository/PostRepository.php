@@ -109,4 +109,66 @@ class PostRepository extends Repository
     }
 
 
+
+
+    /* Datenbankabfragen die im Backend genutzt werden */
+
+    /* Letzte 20 Blog Artikel für das Dashboard */
+    public function findLatestEntries($pid, $limit = 20): array
+    {
+
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getQueryBuilderForTable('tx_blogext_domain_model_post');
+
+        $queryBuilder->getRestrictions()->removeByType(\TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction::class);
+
+        return $queryBuilder
+            ->select('*') 
+            ->from('tx_blogext_domain_model_post') 
+            ->where(
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0)),
+                $queryBuilder->expr()->in('hidden', [0, 1])
+            )
+            ->orderBy('crdate', 'DESC') 
+            ->setMaxResults($limit) 
+            ->executeQuery()
+            ->fetchAllAssociative(); 
+    }
+
+
+
+    /* Artikel als gelöscht markieren */
+    public function markAsDeleted($mainRecordUid): void
+    {
+        $queryBuilderMain = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_blogext_domain_model_post');
+
+        // Hauptdatensatz als gelöscht markieren
+        $queryBuilderMain
+            ->update('tx_blogext_domain_model_post')
+            ->where(
+                $queryBuilderMain->expr()->eq('uid', $queryBuilderMain->createNamedParameter($mainRecordUid))
+            )
+            ->set('deleted', 1)
+            ->executeStatement();
+
+        // Verknüpfte tt_content-Datensätze als gelöscht markieren
+        $queryBuilderContent = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tt_content');
+        $queryBuilderContent
+            ->update('tt_content')
+            ->where(
+                $queryBuilderContent->expr()->eq('tx_blogext_parent', $queryBuilderContent->createNamedParameter($mainRecordUid))
+            )
+            ->set('deleted', 1)
+            ->executeStatement(); 
+    }
+
+
+    public function findBlogCountBackend() {
+        $query = $this->createQuery(); 
+        $query->statement('SELECT COUNT(uid) AS counts FROM tx_blogext_domain_model_post WHERE deleted=0');
+        $result = $query->execute(true);
+        return $result;
+    }
+ 
+
 }

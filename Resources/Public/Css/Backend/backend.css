@@ -1,0 +1,77 @@
+
+body {
+    margin:3rem !important;
+}
+
+h1.tx-blogext-module {
+    font-family: Verdana, Tahoma, sans-serif;
+    font-size:1.9rem;
+    color:#181818;
+    text-shadow: 1px 1px 2px #979797;
+}
+
+
+div.container-2-col {
+    display:flex;
+}
+
+div.container-2-col .column {
+    width:50%;
+}
+
+div.blog-article {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+
+/* Main-Navigation */
+div.main-navigation {
+    margin-top:2.2rem;
+    margin-bottom: 2.2rem;
+}
+
+div.main-navigation ul {
+    list-style: none;
+    padding:0;
+    margin:0;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 10px;
+}
+
+div.main-navigation ul li {
+    margin-right:1.5rem;
+}
+
+div.main-navigation ul li a {
+    color: #fff;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size:1.1rem;
+}
+
+div.main-navigation ul li a span {
+    display: flex; /* Flexbox verwenden */
+    justify-content: center; /* Horizontale Zentrierung */
+    align-items: center; /* Vertikale Zentrierung */
+    background-color: rgb(212, 147, 25);
+    font-size: 1em;
+    padding: 0.5em 1em;
+    height: 2.4em;
+    border-radius: 1.2em;
+    border: 1px solid #ddd;
+}
+
+div.main-navigation ul li a:hover span {
+    -webkit-box-shadow: 0px 0px 3px 1px #000000; 
+    box-shadow: 0px 0px 3px 1px #000000;
+    text-shadow: 1px 1px 3px #000;
+}
+
+div.main-navigation ul li a.active span {
+    -webkit-box-shadow: 0px 0px 3px 1px #000000; 
+    box-shadow: 0px 0px 3px 1px #000000;
+    text-shadow: 1px 1px 3px #000;
+}

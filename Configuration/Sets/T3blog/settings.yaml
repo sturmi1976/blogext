@@ -1,6 +1,6 @@
 blogext:
   view:
-    templateRootPath: 'EXT:sitepackage/Resources/Private/Templates/'
-    partialRootPath: 'EXT:sitepackage/Resources/Private/Partials/'
-    layoutRootPath: 'EXT:sitepackage/Resources/Private/Layouts/'
+    templateRootPath: 'EXT:blogext/Resources/Private/Templates/'
+    partialRootPath: 'EXT:blogext/Resources/Private/Partials/'
+    layoutRootPath: 'EXT:blogext/Resources/Private/Layouts/' 
 

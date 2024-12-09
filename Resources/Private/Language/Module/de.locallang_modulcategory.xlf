@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="de" datatype="plaintext" original="messages" product-name="blogext">
+    <body>
+      <trans-unit id="mlang_tabs_tab">
+        <source>TYPO3 Blog</source>
+        <target>TYPO3 Blog</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

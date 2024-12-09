@@ -204,14 +204,16 @@ class BlogController extends ActionController
         $currentLanguageUid = $context->getPropertyFromAspect('language', 'id');
 
 
-        $referer = $_SERVER["HTTP_REFERER"];
+        //$referer = $_SERVER["HTTP_REFERER"];
         // Aktuelle Domain abrufen
+        /*
         $currentDomain = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
         if(strpos($referer, $currentDomain) !== false) {
             $set_backlink = 1;
         }else{
-            $set_backlink = '';
+            $set_backlink = ''; 
         }
+        */
 
         // Flexform datas
         $flexformData = $this->settings;
@@ -315,7 +317,6 @@ class BlogController extends ActionController
         
 
         $this->view->assign('blog', [
-            'set_backlink' => $set_backlink,
             'blog' => $blog,
             'author' => $author,
             'categories' => $cat,
@@ -471,13 +472,11 @@ class BlogController extends ActionController
             // Captcha prüfen
             if($this->verifyCaptcha() == true) {
 
-            $insert = $this->postRepository->newCommentWrite($data);
-            if(isset($insert)) {
+                $insert = $this->postRepository->newCommentWrite($data);
                 // Redirect to article
                 $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'success' => 1]);
                 $uriWithHash = $uri . '#comments';
                 return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
-            }
             }else{
                 $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'captcha_false' => 1, 'name' => $name, 'email' => $email, 'url' => $website, 'comment' => $message]);
                 $uriWithHash = $uri . '#comments';
