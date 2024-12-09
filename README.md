@@ -23,6 +23,15 @@ page.headerdata.150 = TEXT
 page.headerdata.150.value = <link rel="alternate" type="application/rss+xml" title="My blog" href="https://example.com/rss-feed">
 ```
 
+## ADD Route Enhancers
+To create search engine-friendly links, either add the following to your config.yaml file or write your own configuration.
+
+```yaml
+imports:
+  -
+    resource: 'EXT:blogext/Configuration/Routes/Blog.yaml'
+```
+
 ## Links
 | Links | Description |
 |-------|-------------|
