@@ -120,8 +120,6 @@ class BlogController extends ActionController
 
         $SitesComplete = ceil($anzahl_datensaetze / $flexformData['perPage']);
 
-        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($anzahl_datensaetze);
-
 
         $blogs = $this->tagRepository->findTagsByUid($tagUid, $seite, $flexformData['perPage']);
 
