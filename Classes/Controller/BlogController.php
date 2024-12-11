@@ -74,6 +74,111 @@ class BlogController extends ActionController
     }
 
 
+    /**
+     * tagRepository
+     *
+     * @var \Lanius\Blogext\Domain\Repository\tagRepository
+     */
+    protected $tagRepository = null;
+
+
+    /**
+     * @param \Lanius\Blogext\Domain\Repository\TagRepository $tagRepository
+     */
+    public function injectTagRepository(\Lanius\Blogext\Domain\Repository\TagRepository $tagRepository)
+    {
+        $this->tagRepository = $tagRepository;
+    }
+
+
+
+    /**
+     * action list
+     *
+     * @param \Lanius\Blogext\Domain\Model\Blog $blog
+     * @return \Psr\Http\Message\ResponseInterface
+     */
+    public function tagAction(): ResponseInterface
+    {
+
+        $get = $this->request->getArguments();
+        $tagUid = $get['tagUid'];
+
+        // Flexform datas
+        $flexformData = $this->settings;
+
+        if(isset($get['seite'])) {
+            $seite = $get['seite']*$flexformData['perPage']-$flexformData['perPage'];
+        }else{
+            $seite = 1*$flexformData['perPage']-$flexformData['perPage']; 
+        }
+
+        // Anzahl Datensätze
+        $counts = $this->tagRepository->findBlogCount($tagUid);
+        $anzahl_datensaetze = $counts[0]['counts'];
+
+
+        $SitesComplete = ceil($anzahl_datensaetze / $flexformData['perPage']);
+
+        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($anzahl_datensaetze);
+
+
+        $blogs = $this->tagRepository->findTagsByUid($tagUid, $seite, $flexformData['perPage']);
+
+        $tag = $this->tagRepository->findTag($tagUid);
+
+        // Title Tag
+        $titleProvider = GeneralUtility::makeInstance(TitleProvider::class);
+        $titleProvider->setTitle('Tag: '.$tag[0]['title']);
+
+        $articles = [];
+        $i=0;
+        foreach($blogs as $blog) {
+
+            // Author load
+            $author = $this->postRepository->findAuthorByUid($blog['author']);
+
+            // Kategorien laden
+            $categoriesIds = $blog['categories'];
+            $categoryArray = explode(",",$categoriesIds);
+
+            // Kategorien auslesen
+            $cat = [];
+
+            $catloop=0;
+
+            foreach($categoryArray as $category) {
+                $cat[] = $this->postRepository->findCategoriesByBlogUid($category); 
+                $catloop++;
+            }
+
+            $articles[$i]['blog'] = $blog;
+            $articles[$i]['blog']['author'] = $author[0];
+            $articles[$i]['blog']['categories'] = $cat;
+
+            $i++;
+        }
+
+
+        /* Paging nur anzeigen, wenn mehr als 1 Seite vorhanden ist ... */
+        if($SitesComplete > 1) {
+            if(isset($get['seite'])) {
+                $seite = $get['seite'];
+            }else{
+                $seite=1;
+            }
+            $this->view->assign('paging', $this->blaetterfunktion3($seite, $SitesComplete));
+        }
+
+
+
+        $this->view->assign('blogs', $articles);
+        $this->view->assign('count', count($articles));
+
+        return $this->htmlResponse();  
+    }
+
+
 
     /**
      * action list
@@ -501,8 +606,8 @@ class BlogController extends ActionController
         $get = $this->request->getArguments();
 
         // Meta Tag noindex
-        $metaTagManager = GeneralUtility::makeInstance(MetaTagManagerRegistry::class)->getManagerForProperty('robots');
-        $metaTagManager->addProperty('robots', 'noindex');
+        //$metaTagManager = GeneralUtility::makeInstance(MetaTagManagerRegistry::class)->getManagerForProperty('robots');
+        //$metaTagManager->addProperty('robots', 'noindex, nofollow');
 
         $flexformData = $this->settings;
         $pid = $flexformData['dataPid'];
@@ -524,6 +629,8 @@ class BlogController extends ActionController
 
 
         $categories_blogs = $this->categoryRepository->findAllCategoryArticle($pid, $categoryUid, $seite, $flexformData['perPage']);
+
+        $categoryData = $this->categoryRepository->findCategoryByUid($categoryUid);
 
         // Set a new title tag
         if(isset($get['seite'])) {
@@ -590,7 +697,12 @@ class BlogController extends ActionController
             $this->view->assign('paging', $this->blaetterfunktion2($seite, $SitesComplete));
         }
 
+        if($counts[0]['counts'] == 0) {
+            $this->view->assign('not_found', '1');
+        }
+
         $this->view->assign('blogs', $articles);
+        $this->view->assign('category', $categoryData[0]);
 
 
         return $this->htmlResponse(); 
@@ -833,6 +945,124 @@ public function blaetterfunktion($seite,$maxseite,$url="",$anzahl=4,$get_name="s
                     'action' => 'category',
                     'controller' => 'Blog',
                     'categoryUid' => $categoryUid,
+                    'seite' => $maxseite
+                ]
+            ])
+            ->build();
+            
+            if(!in_array(($maxseite-1),$blaetter)) $return .= "<li><b class='more'>...</b></li><li><a href=\"".$uri."\">letzte</a></li>";
+            else $return .= "<li><a href=\"".$uri."\">$maxseite</a></li>";
+        }
+        
+        $return .= '</ul>';
+
+        if(empty($return)) {
+            return  "&nbsp;<b>1</b>&nbsp;";
+        }else {
+            return $return; 
+        }
+    }
+
+
+
+
+
+
+    public function blaetterfunktion3($seite,$maxseite,$url="",$anzahl=4,$get_name="seite")
+    {
+        $return = "<ul class='pagination'>"; 
+
+        /* All get params to the forum showAction */
+        $get = $this->request->getArguments();
+
+        $tagUid = $get['tagUid'];
+        
+        $anhang = "?";
+        if(substr($url,-1,1) == "&") {
+            $url = substr_replace($url,"",-1,1);
+        }
+        else if(substr($url,-1,1) == "?") {
+            $anhang = "?";
+            $url = substr_replace($url,"",-1,1);
+        }
+        
+        if($anzahl%2 != 0) $anzahl++; //Wenn $anzahl ungerade, dann $anzahl++
+        
+        $a = $seite-($anzahl/2);
+        $b = 0;
+        $blaetter = array();
+        while($b <= $anzahl)
+        {
+            if($a > 0 AND $a <= $maxseite)
+            {
+                $blaetter[] = $a;
+                $b++;
+            }
+            else if($a > $maxseite AND ($a-$anzahl-2)>=0)
+            {
+                $blaetter = array();
+                $a -= ($anzahl+2);
+                $b = 0;
+            }
+            else if($a > $maxseite AND ($a-$anzahl-2)<0)
+            {
+                break;
+            }
+            
+            $a++;
+        }
+        $return .= "";
+        if(!in_array(1,$blaetter) AND count($blaetter) > 1)
+        {
+
+            $uri = $this->uriBuilder
+            ->reset()
+            ->setTargetPageUid($GLOBALS['TSFE']->id)
+            ->setArguments([
+                'tx_blogext_bloglist' => [
+                    'action' => 'tag',
+                    'controller' => 'Blog',
+                    'tagUid' => $tagUid,
+                    'seite' => 1
+                ]
+            ])
+            ->build();
+            
+            if(!in_array(2,$blaetter)) $return .= "<li><a href=\"".$uri."\">1</a></li><li><b class='more'>...</b></li>";
+            else $return .= "<li><a href=\"".$uri."\">1</a></li>";
+        }
+        
+        foreach($blaetter AS $blatt)
+        {
+
+            $uri = $this->uriBuilder
+            ->reset()
+            ->setTargetPageUid($GLOBALS['TSFE']->id)
+            ->setArguments([
+                'tx_blogext_bloglist' => [
+                    'action' => 'tag',
+                    'controller' => 'Blog',
+                    'tagUid' => $tagUid,
+                    'seite' => $blatt
+                ]
+            ])
+            ->build();
+            
+            if($blatt == $seite) $return .= "<li><b>$blatt</b></li>";
+            else $return .= "<li><a href=\"".$uri."\">$blatt</a></li>";
+        }
+        
+        if(!in_array($maxseite,$blaetter) AND count($blaetter) > 1)
+        {
+
+            $uri = $this->uriBuilder
+            ->reset()
+            ->setTargetPageUid($GLOBALS['TSFE']->id)
+            ->setArguments([
+                'tx_blogext_bloglist' => [
+                    'action' => 'tag',
+                    'controller' => 'Blog',
+                    'tagUid' => $tagUid,
                     'seite' => $maxseite
                 ]
             ])

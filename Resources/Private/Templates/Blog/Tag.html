@@ -1,23 +1,20 @@
 
-
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12">
-            <h1>Kategorie: {category.title}</h1>
-        </div>
-        <f:if condition="{not_found} == 1">
+
+        <f:if condition="{count} == 0">
             <div class="col-12">
                 <div class="alert alert-primary text-center" role="alert">
-                    Es sind keine Artikel in dieser Kategorie vorhanden!
+                    Keine Blogartikel gefunden!
                 </div>                  
             </div>
         </f:if>
-        <f:for each="{blogs}" as="blog" iteration="i">
 
+        <f:for each="{blogs}" as="blog" iteration="i">
                 <div class="col-12 col-md-6">
-                    <article id="blogUid-{blog.blog.uid}" class="blogListArticle">
+                    <article id="blogUid-{blog.uid}" class="blogListArticle">
                         <header>
-                            <f:link.action action="show" controller="Blog" arguments="{blogUid: blog.blog.uid}" class="blogListLink">
+                            <f:link.action action="show" controller="Blog" arguments="{blogUid: blog.uid}" class="blogListLink">
                                 <h2>{blog.blog.title}</h2>
                             </f:link.action>
                             

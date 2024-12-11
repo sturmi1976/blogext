@@ -26,6 +26,11 @@ div.blog-article {
 }
 
 
+.newLinks {
+    display: flex;
+}
+
+
 /* Main-Navigation */
 div.main-navigation {
     margin-top:2.2rem;

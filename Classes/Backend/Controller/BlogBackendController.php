@@ -111,6 +111,8 @@ final class BlogBackendController  extends ActionController
 
         // Link um einen neuen Blogartikel zu erstellen
         $newLink = $this->generateNewRecordLink('tx_blogext_domain_model_post', $pid);
+        $newCategory = $this->generateNewCategoryLink('tx_blogext_domain_model_category', $pid);
+        $newTag = $this->generateNewTagLink('tx_blogext_domain_model_tags', $pid);
 
         // Blog Articles
         $blogs = $this->loadLastArticles($pid, $limit=20);
@@ -136,6 +138,8 @@ final class BlogBackendController  extends ActionController
         $this->view->assign('pageId', $pageid);
         $this->view->assign('edit', $editLinks);
         $this->view->assign('new', $newLink);
+        $this->view->assign('newCategory', $newCategory);
+        $this->view->assign('newTag', $newTag);
         $this->view->assign('newIcon', $newIcon);
         $this->view->assign('showIcon', $showIcon);
         $this->view->assign('hideIcon', $hideIcon);
@@ -183,7 +187,6 @@ final class BlogBackendController  extends ActionController
 
     public function generateEditLink(int $recordUid, string $tableName): string
     {
-        // Erzeuge einen Link zur Bearbeitungsmaske
         $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
         $editParameters = [
             'edit' => [
@@ -191,7 +194,7 @@ final class BlogBackendController  extends ActionController
                     $recordUid => 'edit',
                 ],
             ],
-            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'), // Zurück zum Modul
+            'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'), 
         ];
 
         return (string)$uriBuilder->buildUriFromRoute('record_edit', $editParameters);
@@ -200,7 +203,6 @@ final class BlogBackendController  extends ActionController
 
     public function generateNewRecordLink(string $tableName, $pid): string
 {
-    // Erzeuge einen Link zur Erstellung eines neuen Datensatzes
     $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
     $newParameters = [
         'edit' => [
@@ -208,7 +210,39 @@ final class BlogBackendController  extends ActionController
                 $pid => 'new',
             ],
         ],
-        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'), // Zurück zum Modul
+        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'), 
+    ];
+
+    return (string)$uriBuilder->buildUriFromRoute('record_edit', $newParameters);
+}
+
+
+public function generateNewCategoryLink(string $tableName, $pid): string
+{
+    $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+    $newParameters = [
+        'edit' => [
+            $tableName => [
+                $pid => 'new',
+            ],
+        ],
+        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
+    ];
+
+    return (string)$uriBuilder->buildUriFromRoute('record_edit', $newParameters);
+}
+
+
+public function generateNewTagLink(string $tableName, $pid): string
+{
+    $uriBuilder = GeneralUtility::makeInstance(UriBuilder::class);
+    $newParameters = [
+        'edit' => [
+            $tableName => [
+                $pid => 'new',
+            ],
+        ],
+        'returnUrl' => GeneralUtility::getIndpEnv('REQUEST_URI'),
     ];
 
     return (string)$uriBuilder->buildUriFromRoute('record_edit', $newParameters);

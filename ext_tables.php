@@ -63,6 +63,26 @@
     }'
 );
 
+\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPageTSConfig(
+    'mod {
+        wizards.newContentElement.wizardItems.blogext {
+            header = Blog
+            elements {
+                blogtag {
+                    iconIdentifier = content-text
+                    title = Blog: Tagcloud
+                    description = Einfügen einer Tag-Cloud
+                    tt_content_defValues {
+                        CType = list
+                        list_type = blogext_blogtag
+                    }
+                }
+            } 
+            show = *
+        }
+    }'
+);
+
 
 
 // CSS for backend

@@ -22,6 +22,7 @@ CREATE TABLE tx_blogext_domain_model_post (
     meta_keywords VARCHAR(255) DEFAULT '' NOT NULL,
     content_elements TEXT,
     author INT(11) DEFAULT 0,
+    tags VARCHAR(255) DEFAULT '' NOT NULL,
     comments_disable TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
 );
 
@@ -54,4 +55,18 @@ CREATE TABLE tx_blogext_domain_model_comments (
     url VARCHAR(255) DEFAULT '' NOT NULL,
     comment TEXT,
     bloguid INT(11) DEFAULT 0,
+);
+
+CREATE TABLE tx_blogext_domain_model_tags (
+    uid INT AUTO_INCREMENT PRIMARY KEY,
+    pid INT DEFAULT '0' NOT NULL,
+    tstamp INT DEFAULT '0' NOT NULL,
+    crdate INT DEFAULT '0' NOT NULL,
+    cruser_id INT DEFAULT '0' NOT NULL,
+    deleted TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+    hidden TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+    sorting INT(11) DEFAULT '0' NOT NULL,
+    title VARCHAR(255) DEFAULT '' NOT NULL,
+    url_segment VARCHAR(255) DEFAULT '' NOT NULL,
+    bloguid INT(11) DEFAULT 0, 
 );

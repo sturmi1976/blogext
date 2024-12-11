@@ -66,8 +66,17 @@ table tr:hover {
 table td.align-center {
     text-align: center;
 }
+table td.blog-article-title {
+    padding-left:1.4rem;
+}
 iframe {
   overflow: auto !important;
+}
+
+.newLinks {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 </style>
 
@@ -90,11 +99,25 @@ iframe {
 
 
 <!--Link zum erstellen eines neuen Blogartikels-->
-<div class="newBlogLink">
-    <f:link.typolink parameter="{new}" class="newLink">
-        <f:format.raw>{newIcon}</f:format.raw>&nbsp;&nbsp;&nbsp; 
-        Neuen Blogartikel erstellen 
-    </f:link.typolink>
+<div class="newLinks">
+    <div class="newBlogLink">
+        <f:link.typolink parameter="{new}" class="newLink">
+            <f:format.raw>{newIcon}</f:format.raw>&nbsp;&nbsp;&nbsp; 
+            Neuen Blogartikel erstellen 
+        </f:link.typolink>
+    </div>
+    <div class="newBlogLink newBlogCategory">
+        <f:link.typolink parameter="{newCategory}" class="newLink">
+            <f:format.raw>{newIcon}</f:format.raw>&nbsp;&nbsp;&nbsp; 
+            Neue Kategorie erstellen 
+        </f:link.typolink>
+    </div>
+    <div class="newBlogLink newBlogTag">
+        <f:link.typolink parameter="{newTag}" class="newLink">
+            <f:format.raw>{newIcon}</f:format.raw>&nbsp;&nbsp;&nbsp; 
+            Tags erstellen
+        </f:link.typolink>
+    </div>
 </div>
 
 
@@ -141,7 +164,7 @@ iframe {
                                 </f:if>
                             </div>
                         </td>
-                        <td>
+                        <td class="blog-article-title">
                             <div class="article-list-button">
                                 <a href="{blog.url.0}" class="editLink">
                                     <span>{blog.title}</span> 

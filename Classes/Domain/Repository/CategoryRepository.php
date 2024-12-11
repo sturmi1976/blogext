@@ -83,4 +83,12 @@ class CategoryRepository extends Repository
         return $result;
     }
 
+
+    public function findCategoryByUid($uid) {
+        $query = $this->createQuery();
+        $query->statement('SELECT * FROM tx_blogext_domain_model_category WHERE hidden="0" AND deleted="0" AND uid="'.$uid.'" LIMIT 1');
+        $result = $query->execute(true);
+        return $result;
+    }
+
 }

@@ -10,11 +10,13 @@ defined('TYPO3') or die();
 $pluginSignatureBloglist = 'blogext_bloglist';
 $pluginSignatureBlogcategory = 'blogext_blogcategory';
 $pluginSignatureBlogrss = 'blogext_blogrss';
+$pluginSignatureBlogtag = 'blogext_blogtag';
 
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBloglist] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBlogcategory] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBlogrss] = 'pi_flexform';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBlogtag] = 'pi_flexform';
 
 ExtensionManagementUtility::addPiFlexFormValue(
     $pluginSignatureBloglist,
@@ -31,6 +33,11 @@ ExtensionManagementUtility::addPiFlexFormValue(
     'FILE:EXT:blogext/Configuration/Flexforms/Blogrss.xml'
 );
 
+ExtensionManagementUtility::addPiFlexFormValue(
+    $pluginSignatureBlogtag,
+    'FILE:EXT:blogext/Configuration/Flexforms/Tag.xml'
+);
+
 
 
 
@@ -44,10 +51,16 @@ ExtensionManagementUtility::addPiFlexFormValue(
         'Blogext',
         'blogcategory',
         'Blog: Kategorie-Menu'
-    );\TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+    );
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
         'Blogext',
         'blogrss',
         'Blog: RSS Feed'
+    );
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+        'Blogext',
+        'blogtag',
+        'Blog: Tag-Cloud'
     );
 
 })();

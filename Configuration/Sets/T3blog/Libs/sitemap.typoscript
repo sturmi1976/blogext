@@ -25,6 +25,29 @@ plugin.tx_seo {
                     }
                 }
 
+
+                blogtags {
+                    provider = TYPO3\CMS\Seo\XmlSitemap\RecordsXmlSitemapDataProvider
+                    config {
+                        table = tx_blogext_domain_model_tags
+                        sortField = title
+                        lastModifiedField = tstamp
+                        recursive = 1 
+                        pid = {$blog.pid}
+                        url {
+                            pageId = {$blog.pageid}
+                            fieldToParameterMap {
+                                uid = tx_blogext_bloglist[tagUid]
+                            }
+                            additionalGetParameters {
+                                tx_blogext_bloglist.controller = Blog
+                                tx_blogext_bloglist.action = tag
+                            }
+                            useCacheHash = 1
+                        }
+                    }
+                }
+
             }
         }
     }

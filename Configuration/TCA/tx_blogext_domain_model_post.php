@@ -20,7 +20,7 @@ return [
         ],
     ],
     'types' => [
-        '1' => ['showitem' => 'title, url_segment, teaser, author, categories, comments_disable, sorting, --div--; SEO, seo_title, description, meta_keywords, --div--;Inhalte, content_elements, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden'],
+        '1' => ['showitem' => 'title, tags, url_segment, teaser, author, categories, comments_disable, sorting, --div--; SEO, seo_title, description, meta_keywords, --div--;Inhalte, content_elements, --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:access, hidden'],
     ],
     'columns' => [
         'title' => [
@@ -133,6 +133,16 @@ return [
                 'size' => 1,
             ],
         ],
+        'tags' => [
+        'exclude' => true,
+        'label' => 'Tags',
+        'config' => [
+            'type' => 'group',
+            'internal_type' => 'db',
+            'allowed' => 'tx_blogext_domain_model_tags',
+            'size' => 10,
+        ],
+    ],
         'content_elements' => [
             'exclude' => true,
             'label' => 'Content Elements',

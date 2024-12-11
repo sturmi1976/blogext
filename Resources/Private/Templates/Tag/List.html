@@ -1,0 +1,60 @@
+
+<f:if condition="{animate} == 1">
+    <f:asset.script identifier="tagcloud" src="EXT:blogext/Resources/Public/JavaScript/tagcloud.js" />
+    <f:asset.script identifier="tagcloud_function" src="EXT:blogext/Resources/Public/JavaScript/functions.js" />
+</f:if>
+
+
+<f:if condition="{settings.animate} == 0">
+    <f:then>
+        <div class="tx-blogext-tagcloud">
+            <div class="tx-blogext-tagcloud-header">
+                <h3>Tagcloud</h3> 
+            </div>
+            <div class="tx-blogext-tagcloud-content">
+                <ul>
+                    <f:for each="{tags}" as="tag">
+                        <li>
+                            <f:link.action action="tag" controller="Blog" arguments="{tagUid: tag.tag.uid}" additionalAttributes="{data-weight: '{tag.tag.0}'}" style="font-size: {tag.tag.0}px;">
+                                {tag.tag.title -> f:format.htmlspecialchars()}
+                            </f:link.action> 
+                        </li>
+                    </f:for>
+                </ul>
+            </div>
+        </div>
+    </f:then>
+    <f:else>
+        <input type="hidden" id="tagcloud_textcolor" value="{textcolor}">
+        <input type="hidden" id="tagcloud_bordercolor" value="{bordercolor}">
+        <div id="tagcloudContainer" class="tx-blogext-tagcloud">
+            <div class="tx-blogext-tagcloud-header">
+                <h3>Tagcloud</h3> 
+            </div>
+            <canvas width="300" height="300" id="tagCloud">
+              <p>Anything in here will be replaced on browsers that support the canvas element</p>
+            </canvas>
+          </div>
+          <div id="tags">
+            <ul>
+              <f:for each="{tags}" as="tag">
+                      <li>
+                          <f:link.action action="tag" controller="Blog" arguments="{tagUid: tag.tag.uid}" additionalAttributes="{data-weight: '{tag.tag.0}'}" style="font-size: {tag.tag.0}px;">
+                              {tag.tag.title -> f:format.htmlspecialchars()}
+                          </f:link.action> 
+                      </li>
+                  </f:for>
+            </ul>
+          </div>
+    </f:else>
+</f:if>
+
+
+
+
+    
+
+
+
+  
+

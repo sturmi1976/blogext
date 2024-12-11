@@ -11,6 +11,10 @@ services:
     class: Lanius\Blogext\Controller\CategorymenuController
     tags:
       - name: controller.service_arguments
+  Lanius\Blogext\Controller\TagController:
+    class: Lanius\Blogext\Controller\TagController
+    tags:
+      - name: controller.service_arguments
   Lanius\Blogext\Backend\Controller\BlogBackendController:
     tags:
       - backend.controller

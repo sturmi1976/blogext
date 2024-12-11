@@ -39,6 +39,7 @@ page.includeCSS {
 }
 
 
+
 config.pageTitleProviders {
   blogext {
     provider = Lanius\Blogext\PageTitle\TitleProvider

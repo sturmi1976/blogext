@@ -13,7 +13,7 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
        'Blogext',
        'bloglist',
        [
-             \Lanius\Blogext\Controller\BlogController::class => 'list, show, category, writeComment' 
+             \Lanius\Blogext\Controller\BlogController::class => 'list, show, category, writeComment, tag' 
        ]
     );
  })();
@@ -34,6 +34,16 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
       'blogrss',
       [
             \Lanius\Blogext\Controller\FeedController::class => 'rss'   
+      ]
+   );
+})();
+
+(function () {
+   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+      'Blogext',
+      'blogtag',
+      [
+            \Lanius\Blogext\Controller\TagController::class => 'list'   
       ]
    );
 })();
