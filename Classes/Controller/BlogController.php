@@ -19,10 +19,17 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\MetaTag\MetaTagManagerRegistry;
 
+use TYPO3\CMS\Core\Page\PageRenderer;
+
+use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
+
 
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\Mailer;
+
+use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 
 
 
@@ -30,7 +37,19 @@ class BlogController extends ActionController
 {
  
     private const SESSION_KEY = 'captcha_text';
-    
+
+
+    protected FileRepository $fileRepository;
+    protected ResourceFactory $resourceFactory;
+
+
+    /*
+    public function __construct(FileRepository $fileRepository, ResourceFactory $resourceFactory)
+    {
+        $this->fileRepository = $fileRepository;
+        $this->resourceFactory = $resourceFactory;
+    }
+    */
 
     /**
      * @var \TYPO3\CMS\Core\Resource\ResourceStorage
@@ -91,6 +110,8 @@ class BlogController extends ActionController
     }
 
 
+    
+
 
     /**
      * action list
@@ -107,8 +128,8 @@ class BlogController extends ActionController
         // Flexform datas
         $flexformData = $this->settings;
 
-        if(isset($get['seite'])) {
-            $seite = $get['seite']*$flexformData['perPage']-$flexformData['perPage'];
+        if(isset($get['page'])) {
+            $seite = $get['page']*$flexformData['perPage']-$flexformData['perPage'];
         }else{
             $seite = 1*$flexformData['perPage']-$flexformData['perPage']; 
         }
@@ -160,8 +181,8 @@ class BlogController extends ActionController
 
         /* Paging nur anzeigen, wenn mehr als 1 Seite vorhanden ist ... */
         if($SitesComplete > 1) {
-            if(isset($get['seite'])) {
-                $seite = $get['seite'];
+            if(isset($get['page'])) {
+                $seite = $get['page'];
             }else{
                 $seite=1;
             }
@@ -187,6 +208,7 @@ class BlogController extends ActionController
     public function listAction(): ResponseInterface
     {
         $context = GeneralUtility::makeInstance(Context::class);
+
 
         // Flexform datas
         $flexformData = $this->settings;
@@ -307,17 +329,6 @@ class BlogController extends ActionController
         $currentLanguageUid = $context->getPropertyFromAspect('language', 'id');
 
 
-        //$referer = $_SERVER["HTTP_REFERER"];
-        // Aktuelle Domain abrufen
-        /*
-        $currentDomain = GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
-        if(strpos($referer, $currentDomain) !== false) {
-            $set_backlink = 1;
-        }else{
-            $set_backlink = ''; 
-        }
-        */
-
         // Flexform datas
         $flexformData = $this->settings;
 
@@ -338,6 +349,7 @@ class BlogController extends ActionController
 
 
         $blog = $this->postRepository->findBlogByUid($get['blogUid']);
+        
 
         // Content Elemente laden aus tt_content
         $tt_content = $this->postRepository->findAllWithContentElements($get['blogUid'], $flexformData['dataPid']);
@@ -417,6 +429,72 @@ class BlogController extends ActionController
 
         // Comments load
         $comments = $this->postRepository->findCommentsByBloguid($get['blogUid']);
+
+
+        $desc = $blog[0]['teaser'];
+        $desc = strip_tags($desc);
+        $desc = $this->cropText($desc, 2500);
+
+        $domain = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
+        $url = $this->uriBuilder
+            ->reset()
+            ->setTargetPageUid($GLOBALS['TSFE']->id)
+            ->uriFor(
+                'show',
+                [
+                    'blogUid' => $blog[0]['uid'],
+                ],
+                'Blog',
+                'blogext',
+                'bloglist',
+            );
+        if($this->settings['art'] == "Organization") {
+            $publisher_name = htmlspecialchars($this->settings['name_person']);
+        }else{
+            $publisher_name = htmlspecialchars($author[0]['realName']);
+        }
+
+        // Datas from content element
+        $data = $this->request->getAttribute('currentContentObject')->data;
+
+        $image_load = $this->postRepository->findUserImage($data['uid']);
+        $img_resource = $this->renderImage($image_load[0]['uid']);
+
+        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($img_resource);
+
+        /* Structured Data */
+        $structuredData = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BlogPosting',
+            'headline' => ''.$blog[0]['title'].'',
+            'description' => ''.$desc.'',
+            'author' => [
+                '@type' => 'Person',
+                'name' => ''.$author[0]['realName'].'',
+            ],
+            'datePublished' => ''.date("Y-m-d", $blog[0]['crdate']).'', 
+            'dateModified' => ''.date("Y-m-d", $blog[0]['tstamp']).'',
+            'mainEntityOfPage' => [
+                '@type' => 'WebPage',
+                '@id' => ''.$domain.$url.'',
+            ],
+            'publisher' => [
+                '@type' => ''.htmlspecialchars($this->settings['art']).'',
+                'name' => ''.$publisher_name.'',
+                'logo' => [
+                    '@type' => 'ImageObject',
+                    'url' => ''.$domain.$img_resource['url'].'',
+                ],
+            ],
+            'image' => ''.$domain.$img_resource['url'].'',
+        ];
+
+        $jsonLd = json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+
+        $pagerenderer = GeneralUtility::makeInstance(PageRenderer::class);
+        $pagerenderer->addHeaderData(
+            '<script type="application/ld+json">' . $jsonLd . '</script>'
+        );
         
 
         $this->view->assign('blog', [
@@ -442,6 +520,7 @@ class BlogController extends ActionController
 
 
     }
+
 
 
 
@@ -1021,7 +1100,7 @@ public function blaetterfunktion($seite,$maxseite,$url="",$anzahl=4,$get_name="s
                     'action' => 'tag',
                     'controller' => 'Blog',
                     'tagUid' => $tagUid,
-                    'seite' => 1
+                    'page' => 1
                 ]
             ])
             ->build();
@@ -1041,7 +1120,7 @@ public function blaetterfunktion($seite,$maxseite,$url="",$anzahl=4,$get_name="s
                     'action' => 'tag',
                     'controller' => 'Blog',
                     'tagUid' => $tagUid,
-                    'seite' => $blatt
+                    'page' => $blatt
                 ]
             ])
             ->build();
@@ -1061,7 +1140,7 @@ public function blaetterfunktion($seite,$maxseite,$url="",$anzahl=4,$get_name="s
                     'action' => 'tag',
                     'controller' => 'Blog',
                     'tagUid' => $tagUid,
-                    'seite' => $maxseite
+                    'page' => $maxseite
                 ]
             ])
             ->build();
@@ -1079,6 +1158,47 @@ public function blaetterfunktion($seite,$maxseite,$url="",$anzahl=4,$get_name="s
         }
     }
 
+
+
+    private function cropText($text, $length)
+    {
+        if (strlen($text) > $length) {
+            return substr($text, 0, $length) . '...';
+        }
+        return $text;
+    }
+
+
+
+    public function renderImage($ref_uid)
+    {
+        // Annahme: $this->settings['image'] enthält die sys_file_reference-UID
+        $fileReferenceUid = (int)$ref_uid;
+
+        if ($fileReferenceUid > 0) {
+            // Lade die File Reference
+            //$fileReference = $this->resourceFactory->getFileReferenceObject($fileReferenceUid);
+            $fileReference_instanz = GeneralUtility::makeInstance(ResourceFactory::class);
+            $fileReference = $fileReference_instanz->getFileReferenceObject($fileReferenceUid);
+
+            if ($fileReference !== null) {
+                // Hole das Original-File
+                $file = $fileReference->getOriginalFile();
+
+                // Hole die öffentliche URL
+                $publicUrl = $file->getPublicUrl();
+
+                // Optional: Datei-Metadaten
+                $metadata = $file->getProperties();
+
+                return [
+                    'url' => $publicUrl,
+                    'metadata' => $metadata,
+                ];
+            }
+        }
+        return null;
+    }
 
 
 }

@@ -13,14 +13,16 @@ routeEnhancers:
         _controller: 'Blog::category'
         _arguments:
           category: categoryUid
-      - routePath: '/tag/{tag_title}/page-{seite}'
+      - routePath: '/tag/{tag_title}'
         _controller: 'Blog::tag'
         _arguments:
-          tag_title: tagUid
-      - routePath: '/{seite}'
+          tag_title: tagUid 
+
+      - routePath: '/{seite}' 
         _controller: 'Blog::list'
         _arguments:
           seite: seite
+
   
     defaultController: 'Blog::list'  
     defaults:

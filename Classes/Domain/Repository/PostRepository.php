@@ -110,6 +110,15 @@ class PostRepository extends Repository
 
 
 
+    public function findUserImage($uid) {
+        $query = $this->createQuery();
+        $query->statement('SELECT * FROM sys_file_reference WHERE tablenames="tt_content" AND fieldname="settings.image" AND deleted="0" AND uid_foreign="'.$uid.'" ORDER BY uid DESC LIMIT 1');
+        $result = $query->execute(true);
+        return $result;
+    }
+
+
+
 
     /* Datenbankabfragen die im Backend genutzt werden */
 

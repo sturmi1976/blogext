@@ -79,6 +79,75 @@
                             <type>text</type>
                         </config>
                     </settings.seo_description>
+                    <settings.art>
+                        <label>
+                            Person oder Unternehmen
+                        </label>
+                        <description>
+                            <![CDATA[Wichtig: Die nachfolgenden Felder sind wichtig für die strukturierten Daten der Blogbeiträge.]]>
+                        </description>
+                        <onChange>reload</onChange>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items>
+                                <numIndex index="0">
+                                    <label>
+                                        Person
+                                    </label>
+                                    <value>Person</value>
+                                </numIndex>
+                                <numIndex index="1">
+                                    <label>
+                                        Unternehmen
+                                    </label>
+                                    <value>Organization</value>
+                                </numIndex>
+                            </items>
+                            <eval>required</eval>
+                        </config>
+                    </settings.art>
+                    <settings.name_person>
+                        <label>
+                            Name des Unternehmens/Organisation
+                        </label>
+                        <config>
+                            <type>input</type>
+                        </config>
+                        <displayCond>FIELD:settings.art:=:Organization</displayCond>
+                    </settings.name_person>
+
+
+                    <settings.image>
+                        <label>Select or upload an image</label>
+                        <config>
+  <type>inline</type>
+  <foreign_table>sys_file_reference</foreign_table>
+  <foreign_field>uid_foreign</foreign_field>
+  <foreign_table_where>AND sys_file_reference.tablenames='tt_content' AND sys_file_reference.fieldname='imageSelector'</foreign_table_where>
+  <foreign_selector>uid_local</foreign_selector>
+  <foreign_selector_fieldTcaOverride>
+    <config>
+      <appearance>
+        <elementBrowserType>file</elementBrowserType>
+        <elementBrowserAllowed>jpg,jpeg,png,gif</elementBrowserAllowed>
+      </appearance>
+    </config>
+  </foreign_selector_fieldTcaOverride>
+  <appearance>
+    <createNewRelationLinkTitle>Add image</createNewRelationLinkTitle>
+    <fileUploadAllowed>1</fileUploadAllowed>
+    <showPossibleLocalizationRecords>1</showPossibleLocalizationRecords>
+    <showRemovedLocalizationRecords>0</showRemovedLocalizationRecords>
+    <showAllLocalizationLink>1</showAllLocalizationLink>
+    <showSynchronizationLink>1</showSynchronizationLink>
+  </appearance>
+  <maxitems>1</maxitems>
+  <minitems>0</minitems>
+</config>
+                    </settings.image>
+
+
                 </el>
             </ROOT>
         </sDEF2>

@@ -1,0 +1,16 @@
+routes: {  }
+routeEnhancers:     
+  Tags:
+    type: Plugin
+    routePath: '/{page}'
+    defaults:
+      page: '1'
+    requirements:
+      page: '\d+'
+    aspects:
+      page:
+        type: StaticRangeMapper
+        start: '1'
+        end: '100' 
+
+
