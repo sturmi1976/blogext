@@ -11,12 +11,14 @@ $pluginSignatureBloglist = 'blogext_bloglist';
 $pluginSignatureBlogcategory = 'blogext_blogcategory';
 $pluginSignatureBlogrss = 'blogext_blogrss';
 $pluginSignatureBlogtag = 'blogext_blogtag';
+$pluginSignatureBloglast = 'blogext_bloglast';
 
 
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBloglist] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBlogcategory] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBlogrss] = 'pi_flexform';
 $GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBlogtag] = 'pi_flexform';
+$GLOBALS['TCA']['tt_content']['types']['list']['subtypes_addlist'][$pluginSignatureBloglast] = 'pi_flexform';
 
 ExtensionManagementUtility::addPiFlexFormValue(
     $pluginSignatureBloglist,
@@ -36,6 +38,11 @@ ExtensionManagementUtility::addPiFlexFormValue(
 ExtensionManagementUtility::addPiFlexFormValue(
     $pluginSignatureBlogtag,
     'FILE:EXT:blogext/Configuration/Flexforms/Tag.xml'
+);
+
+ExtensionManagementUtility::addPiFlexFormValue(
+    $pluginSignatureBloglast,
+    'FILE:EXT:blogext/Configuration/Flexforms/Last.xml'
 );
 
 
@@ -61,6 +68,11 @@ ExtensionManagementUtility::addPiFlexFormValue(
         'Blogext',
         'blogtag',
         'Blog: Tag-Cloud'
+    );
+    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
+        'Blogext',
+        'bloglast',
+        'Blog: Letzte Blogartikel'
     );
 
 })();

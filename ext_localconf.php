@@ -48,6 +48,16 @@ use Lanius\Blogext\Backend\Controller\BlogBackendController;
    );
 })();
 
+(function () {
+   \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
+      'Blogext',
+      'bloglast',
+      [
+            \Lanius\Blogext\Controller\LastController::class => 'list'   
+      ]
+   );
+})();
+
 
 
 

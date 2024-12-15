@@ -1,0 +1,136 @@
+<T3DataStructure>
+    <sheets>
+        <sDEF>
+            <ROOT>
+                <sheetTitle>
+                    Allgemeine Einstellungen
+                </sheetTitle>
+                <type>array</type>
+                <el>
+                    <settings.pid>
+                        <label>
+                            PageUID - Seite wo sich das Bloglist-Plugin befindet.
+                        </label>
+                        <config>
+                            <type>group</type>
+                            <allowed>pages</allowed>
+                            <maxitems>1</maxitems>
+                            <minitems>1</minitems>
+                            <size>1</size>
+                            <suggestOptions>
+                                <default>
+                                    <additionalSearchFields>nav_title, alias, url</additionalSearchFields>
+                                    <addWhere>AND pages.doktype = 1</addWhere>
+                                </default>
+                            </suggestOptions>
+                        </config>
+                    </settings.pid>
+
+                    <settings.dataPid>
+                      <label>
+                        DataUID - Ordner mit den Datensätzen
+                      </label>
+                      <config>
+                          <type>group</type>
+                          <internal_type>db</internal_type>
+                          <allowed>pages</allowed>
+                          <maxitems>1</maxitems>
+                          <minitems>1</minitems>
+                          <size>1</size>
+                          <addWhere>AND pages.doktype = 254</addWhere>
+                      </config>
+                    </settings.dataPid>
+
+                    <settings.count>
+                        <label>Anzahl der Artikel</label>
+                        <config>
+                            <type>input</type>
+                            <eval>trim,required</eval>
+                        </config>
+                    </settings.count>
+
+                    <settings.orderby>
+                        <label>Sortierung</label>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items>
+                                <numIndex index="0">
+                                    <label>
+                                        Aufsteigend
+                                    </label>
+                                    <value>asc</value>
+                                </numIndex>
+                                <numIndex index="1">
+                                    <label>
+                                        Absteigend
+                                    </label>
+                                    <value>desc</value>
+                                </numIndex>
+                            </items>
+                        </config>
+                    </settings.orderby>
+
+
+                    <settings.slider>
+                        <label>Anzeige als Slider</label>
+                        <onChange>reload</onChange>
+                        <config>
+                            <type>check</type>
+                        </config>
+                    </settings.slider>
+
+                    <settings.pager>
+                        <label>Pager (dots) anzeigen</label>
+                        <config>
+                            <type>check</type>
+                        </config>
+                        <displayCond>FIELD:settings.slider:=:1</displayCond>
+                    </settings.pager>
+
+                    <settings.sliderart>
+                        <label>Slider wählen</label>
+                        <description>jQuery muss für diese Slider eingebunden werden.</description>
+                        <config>
+                            <type>select</type>
+                            <renderType>selectSingle</renderType>
+                            <items>
+                                <numIndex index="0">
+                                    <label>
+                                        Slick-Slider (jQuery)
+                                    </label>
+                                    <value>slick_slider</value>
+                                </numIndex>
+                            </items>
+                        </config>
+                        <displayCond>FIELD:settings.slider:=:1</displayCond>
+                    </settings.sliderart>
+
+                    <settings.showitems>
+                        <label>
+                            Anzahl sichtbarer Slides
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>trim,required</eval>
+                        </config>
+                        <displayCond>FIELD:settings.slider:=:1</displayCond>
+                    </settings.showitems>
+
+                    <settings.cropping>
+                        <label>
+                            Crop: Falls der Teaser im Slider gekürzt werden soll
+                        </label>
+                        <description>Gebe hier die Anzahl der Zeichen ein, wenn die Text gekkürzt werden sollen!</description>
+                        <config>
+                            <type>input</type>
+                            <eval>trim</eval>
+                        </config>
+                        <displayCond>FIELD:settings.slider:=:1</displayCond>
+                    </settings.cropping>
+                    
+                </el>
+            </ROOT>
+        </sDEF>
+    </sheets>
+</T3DataStructure>

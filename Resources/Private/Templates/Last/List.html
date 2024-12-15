@@ -1,0 +1,114 @@
+
+<!-- Slick Slider -->
+<f:if condition="{sliderArt} == slick_slider">
+    <f:asset.css identifier="slickCss" href="EXT:blogext/Resources/Public/JavaScript/Slickslider/slick.css" />
+    <f:asset.css identifier="slickCssTheme" href="EXT:blogext/Resources/Public/JavaScript/Slickslider/slick-theme.css" />
+    <f:asset.css identifier="slickCssCustom" href="EXT:blogext/Resources/Public/JavaScript/Slickslider/slick-custom.css" />
+    <f:asset.script identifier="slickJS" src="EXT:blogext/Resources/Public/JavaScript/Slickslider/slickslider.js" />
+    <f:asset.script identifier="slickFunction">
+        
+    $(document).ready(function(){
+        var countslide = JSON.parse(<f:format.json>{sliderCountItems}</f:format.json>);
+        var pager = JSON.parse(<f:format.json>{pager}</f:format.json>);
+        function initializeSlider(slidesToShow) {
+            if ($('.slider').hasClass('slick-initialized')) {
+                $('.slider').slick('unslick'); // Destroy existing slider 
+            }
+
+            $('.slider').slick({
+                slidesToShow: slidesToShow,
+                slidesToScroll: 1,
+                infinite: true,
+                autoplay: false,
+                arrows: true,
+                dots: pager, 
+                responsive: [ 
+                    {
+                        breakpoint: 1024, 
+                        settings: {
+                            slidesToShow: Math.min(slidesToShow, 2)
+                        }
+                    },
+                    {
+                        breakpoint: 768, 
+                        settings: {
+                            slidesToShow: Math.min(slidesToShow, 2)
+                        }
+                    },
+                    {
+                        breakpoint: 480, // Smartphone
+                        settings: {
+                            slidesToShow: 1 // Always 1 on mobile
+                        }
+                    }
+                ]
+            });
+        }
+
+        // Initialize with default value (4 slides)
+        initializeSlider(4);
+
+        // Adjust slide heights dynamically
+        function adjustSlideHeights() {
+            let maxHeight = 0;
+            $('.slider .slick-slide').each(function() {
+                $(this).css('height', ''); // Reset height
+                const height = $(this).outerHeight();
+                if (height > maxHeight) {
+                    maxHeight = height;
+                }
+            });
+            $('.slider .slick-slide').css('height', maxHeight + 'px');
+        }
+
+        adjustSlideHeights();
+
+        $(window).on('resize', function() {
+            adjustSlideHeights();
+        });
+
+        $('.slider').on('setPosition', function() {
+            adjustSlideHeights();
+        });
+
+        // Dynamically change slidesToShow
+        window.updateSlidesToShow = function(slides) {
+            initializeSlider(slides);
+            adjustSlideHeights();
+        };
+
+        updateSlidesToShow(countslide); 
+    });
+
+    </f:asset.script>
+
+
+    <div class="slider">
+        <f:for each="{blogs}" as="blog" iteration="i">
+            <div class="slide">
+                <f:link.action pageUid="{slidersettings.pageid}" action="show" controller="Blog" arguments="{blogUid: blog.uid}">
+                    <h3>{blog.title}</h3>
+                </f:link.action>
+                
+                <f:if condition="{cropping}">
+                    <f:then>
+                        <f:format.raw>
+                            <f:format.crop maxCharacters="{cropping}" append="&nbsp;&nbsp;..." respectWordBoundaries="false">
+                                {blog.teaser}
+                            </f:format.crop>
+                        </f:format.raw>
+                    </f:then>
+                    <f:else>
+                        <f:format.raw>
+                                {blog.teaser}
+                        </f:format.raw>
+                    </f:else>
+                </f:if>
+            </div>
+        </f:for>
+    </div>
+</f:if>
+
+
+
+<!-- BX Slider -->

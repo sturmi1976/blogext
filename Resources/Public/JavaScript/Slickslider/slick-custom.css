@@ -1,0 +1,97 @@
+.slider {
+    margin: 20px auto;
+    width: 100%; /* Make the slider stretch to full width */
+}
+.slide {
+    background: #ddd;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.slick-prev, .slick-next {
+    background: black;
+    color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+.slick-prev:hover, .slick-next:hover {
+    background: #444;
+}
+.slick-prev:before, .slick-next:before {
+    font-size: 16px;
+    color: white;
+}
+
+.slick-prev:focus, .slick-next:focus {
+    background: black; 
+    outline: none; 
+}
+
+.slick-prev:hover, .slick-next:hover {
+    background: #444;
+}
+
+
+/* Custom arrows */
+.slick-prev, .slick-next {
+    width: stretch; 
+    height: 150px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    background: none;
+}
+
+.slick-prev {
+    left:-45px;
+}
+
+.slick-next {
+    right:-45px;
+}
+
+.slick-prev:before, .slick-next:before {
+    content: ''; 
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-style: solid;
+}
+
+.slick-prev:before {
+    border-width: 130px 60px 130px 0; /* Größe des Pfeils */
+    border-color: transparent black transparent transparent; /* Schwarzer Pfeil nach links */
+}
+
+.slick-next:before {
+    border-width: 130px 0 130px 60px; /* Größe des Pfeils */
+    border-color: transparent transparent transparent black; /* Schwarzer Pfeil nach rechts */
+}
+
+.slick-prev:hover, .slick-next:hover, .slick-prev:focus, .slick-next:focus {
+    background: none;
+}
+
+.slick-prev:hover:before, .slick-next:hover:before {
+    border-color: transparent gray transparent transparent; /* Grau auf Hover */
+}
+
+.slick-next:hover:before {
+    border-color: transparent transparent transparent gray; /* Grau auf Hover */
+}
+
+/* Auf Smartphones Pfeile ausblenden */
+@media (max-width: 768px) {
+    .slick-prev, .slick-next {
+        display: none !important; /* Pfeile ausblenden */
+    }
+}

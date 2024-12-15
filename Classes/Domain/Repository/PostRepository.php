@@ -108,13 +108,29 @@ class PostRepository extends Repository
         return $result; 
     }
 
-
-
     public function findUserImage($uid) {
         $query = $this->createQuery();
         $query->statement('SELECT * FROM sys_file_reference WHERE tablenames="tt_content" AND fieldname="settings.image" AND deleted="0" AND uid_foreign="'.$uid.'" ORDER BY uid DESC LIMIT 1');
         $result = $query->execute(true);
         return $result;
+    }
+
+    public function getLastArticles($count, $orderby) {
+        // QueryBuilder-Instanz
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_blogext_domain_model_post');
+
+        $result = $queryBuilder
+            ->select('*')
+            ->from('tx_blogext_domain_model_post')
+            ->where(
+                $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0)),
+                $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0))
+            )
+            ->orderBy('crdate', $orderby)
+            ->setMaxResults($count)
+            ->executeQuery()
+            ->fetchAllAssociative();
+            return $result;
     }
 
 
