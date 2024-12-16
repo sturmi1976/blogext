@@ -1,4 +1,5 @@
 
+
 <!-- Slick Slider -->
 <f:if condition="{sliderArt} == slick_slider">
     <f:asset.css identifier="slickCss" href="EXT:blogext/Resources/Public/JavaScript/Slickslider/slick.css" />
@@ -10,6 +11,8 @@
     $(document).ready(function(){
         var countslide = JSON.parse(<f:format.json>{sliderCountItems}</f:format.json>);
         var pager = JSON.parse(<f:format.json>{pager}</f:format.json>);
+        var slidetoscrolling = JSON.parse(<f:format.json>{slidetoscrolling}</f:format.json>);
+        var autoplay = JSON.parse(<f:format.json>{autoplay}</f:format.json>);
         function initializeSlider(slidesToShow) {
             if ($('.slider').hasClass('slick-initialized')) {
                 $('.slider').slick('unslick'); // Destroy existing slider 
@@ -17,9 +20,9 @@
 
             $('.slider').slick({
                 slidesToShow: slidesToShow,
-                slidesToScroll: 1,
+                slidesToScroll: slidetoscrolling,
                 infinite: true,
-                autoplay: false,
+                autoplay: autoplay,
                 arrows: true,
                 dots: pager, 
                 responsive: [ 
@@ -111,4 +114,3 @@
 
 
 
-<!-- BX Slider -->

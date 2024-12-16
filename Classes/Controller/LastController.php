@@ -59,14 +59,30 @@ class LastController extends ActionController
             }else{
                 $pager = false;
             }
+            
+            if(empty($flexformData['slidetoscroll'])) {
+                $slidetocroll = 1;
+            }else{
+                $slidetocroll = $flexformData['slidetoscroll'];
+            }
+
+            if(empty($flexformData['autoplay'])) {
+                $autoplay = false;
+            }else{
+                $autoplay = true;
+            }
+
             $this->view->assign('sliderArt', $this->settings['sliderart']);
             $this->view->assign('blogs', $blogs);
             $this->view->assign('sliderCountItems', (int)$flexformData['showitems']);
             $this->view->assign('cropping', intval($flexformData['cropping'])); 
             $this->view->assign('pager', $pager); 
             $this->view->assign('slidersettings', $flexformData);
+            $this->view->assign('slidetoscrolling', (int)$slidetocroll);
+            $this->view->assign('autoplay', $autoplay);
         }else{
             // Wenn die Darstellung nur statisch erfolgen soll (ohne Slide-Funktion) 
+            $this->view->assign('blogs', $blogs);
         }
 
        

@@ -117,6 +117,25 @@
                         <displayCond>FIELD:settings.slider:=:1</displayCond>
                     </settings.showitems>
 
+                    <settings.slidetoscroll>
+                        <label>
+                            Anzahl der Slides die gescrollt werden
+                        </label>
+                        <config>
+                            <type>input</type>
+                            <eval>trim</eval>
+                        </config>
+                        <displayCond>FIELD:settings.slider:=:1</displayCond>
+                    </settings.slidetoscroll>
+
+                    <settings.autoplay>
+                        <label>Autoplay</label>
+                        <config>
+                            <type>check</type>
+                        </config>
+                        <displayCond>FIELD:settings.slider:=:1</displayCond>
+                    </settings.autoplay>
+
                     <settings.cropping>
                         <label>
                             Crop: Falls der Teaser im Slider gekürzt werden soll
