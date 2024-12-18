@@ -766,6 +766,8 @@ class BlogController extends ActionController
             $metaTagManager->addProperty('description', $categoryData[0]['meta_description']);
         }
 
+        
+
         // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($categoryData); 
 
         $articles = [];
