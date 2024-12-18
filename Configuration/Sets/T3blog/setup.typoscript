@@ -36,6 +36,7 @@ module.tx_blogext {
 
 page.includeCSS {
     blogCSS = EXT:blogext/Resources/Public/Css/blog.css
+    starrating = EXT:blogext/Resources/Public/Css/starrating.css
 }
 
 

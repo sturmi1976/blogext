@@ -348,7 +348,27 @@ class BlogController extends ActionController
         }
 
 
-        $blog = $this->postRepository->findBlogByUid($get['blogUid']);
+        $blog = $this->postRepository->findBlogByUid(htmlspecialchars($get['blogUid']));
+
+        $reviewStarCount = $this->postRepository->getStarRatingSum(htmlspecialchars($get['blogUid']));
+        $reviewCount = count($this->postRepository->getStarRatingReviewCount(htmlspecialchars($get['blogUid'])));
+        $bewertungen = $this->postRepository->getStarRatingReviewCount(htmlspecialchars($get['blogUid']));
+        $bewertungen2 = [];
+        foreach($bewertungen as $wert) {
+            $bewertungen2[] = $wert['stars'];
+        }
+
+
+        if ($reviewCount > 0) {
+            $ratingValue = array_sum($bewertungen2) / $reviewCount;
+        } else {
+            $ratingValue = 0; 
+        }
+        $aggregateRating = [
+            "@type" => "AggregateRating",
+            "ratingValue" => round($ratingValue, 1),
+            "reviewCount" => $reviewCount
+        ];
         
 
         // Content Elemente laden aus tt_content
@@ -433,7 +453,7 @@ class BlogController extends ActionController
 
         $desc = $blog[0]['teaser'];
         $desc = strip_tags($desc);
-        $desc = $this->cropText($desc, 2500);
+        $desc = $this->cropText($desc, 300);
 
         $domain = \TYPO3\CMS\Core\Utility\GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST');
         $url = $this->uriBuilder
@@ -460,34 +480,31 @@ class BlogController extends ActionController
         $image_load = $this->postRepository->findUserImage($data['uid']);
         $img_resource = $this->renderImage($image_load[0]['uid']);
 
-        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($img_resource);
 
-        /* Structured Data */
+        /* Structured Data */     
+
         $structuredData = [
-            '@context' => 'https://schema.org',
-            '@type' => 'BlogPosting',
-            'headline' => ''.$blog[0]['title'].'',
-            'description' => ''.$desc.'',
-            'author' => [
-                '@type' => 'Person',
-                'name' => ''.$author[0]['realName'].'',
+            "@context" => "https://schema.org",
+            "@type" => "BlogPosting",
+            "mainEntityOfPage" => [
+                "@type" => "WebPage",
+                "@id" => ''.$domain.$url.''
             ],
-            'datePublished' => ''.date("Y-m-d", $blog[0]['crdate']).'', 
-            'dateModified' => ''.date("Y-m-d", $blog[0]['tstamp']).'',
-            'mainEntityOfPage' => [
-                '@type' => 'WebPage',
-                '@id' => ''.$domain.$url.'',
+            "image" => ''.$domain.$img_resource['url'].'',
+            "headline" => ''.$blog[0]['title'].'',
+            "description" => ''.$desc.'',
+            "author" => [
+                "@type" => ''.$this->settings['art'].'',
+                "name" => ''.$publisher_name.''
             ],
-            'publisher' => [
-                '@type' => ''.htmlspecialchars($this->settings['art']).'',
-                'name' => ''.$publisher_name.'',
-                'logo' => [
-                    '@type' => 'ImageObject',
-                    'url' => ''.$domain.$img_resource['url'].'',
-                ],
+            "publisher" => [
+                "@type" => ''.$this->settings['art'].'',
+                "name" => ''.$publisher_name.''
             ],
-            'image' => ''.$domain.$img_resource['url'].'',
+            "datePublished" => ''.date("Y-m-d\TH:i:sP", $blog[0]['crdate']).'',
+            "dateModified" => ''.date("Y-m-d\TH:i:sP", $blog[0]['crdate']).''
         ];
+
 
         $jsonLd = json_encode($structuredData, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
 
@@ -514,6 +531,10 @@ class BlogController extends ActionController
             $this->view->assign('email', $get['email']);
             $this->view->assign('url', $get['url']);
             $this->view->assign('comment', $get['comment']);
+        }
+
+        if(isset($get['sterne'])) {
+            $this->view->assign('sterne', $get['sterne']);
         }
 
         return $this->htmlResponse(); 
@@ -635,6 +656,7 @@ class BlogController extends ActionController
             $email      = htmlspecialchars($get['email']);
             $website    = htmlspecialchars($get['url']); 
             $message    = htmlspecialchars($get['comment']);
+            $sterne     = htmlspecialchars($get['rating']);
             $time       = time();
             $pid        = $flexformData['dataPid'];
             $uid        = $get['uid'];
@@ -652,15 +674,35 @@ class BlogController extends ActionController
             ];
 
             // Captcha prüfen
-            if($this->verifyCaptcha() == true) {
+            if($this->verifyCaptcha() == true && !empty($get['rating'])) {
 
                 $insert = $this->postRepository->newCommentWrite($data);
+
+                $blogUid = htmlspecialchars($get['uid']);
+                $commentUid = $insert;
+                if(!empty($get['rating'])) {
+                $stars = htmlspecialchars($get['rating']);
+                $stars = explode("_",$stars);
+                }
+
+                $starrating = [
+                    'pid' => $pid,
+                    'crdate' => time(),
+                    'tstamp' => time(),
+                    'bloguid' => $blogUid,
+                    'commentuid' => $commentUid,
+                    'stars' => $stars[1]
+                ];
+
+                $insert_stars = $this->postRepository->newStarRating($starrating);
+                
+
                 // Redirect to article
                 $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'success' => 1]);
                 $uriWithHash = $uri . '#comments';
                 return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
             }else{
-                $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'captcha_false' => 1, 'name' => $name, 'email' => $email, 'url' => $website, 'comment' => $message]);
+                $uri = $this->uriBuilder->uriFor('show', ['blogUid' => $get['uid'], 'captcha_false' => 1, 'name' => $name, 'email' => $email, 'url' => $website, 'comment' => $message, 'sterne' => $sterne]);
                 $uriWithHash = $uri . '#comments';
                 return $this->responseFactory->createResponse(307)->withHeader('Location', $uriWithHash);
             }

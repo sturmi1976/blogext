@@ -70,3 +70,16 @@ CREATE TABLE tx_blogext_domain_model_tags (
     url_segment VARCHAR(255) DEFAULT '' NOT NULL,
     bloguid INT(11) DEFAULT 0, 
 );
+
+CREATE TABLE tx_blogext_domain_model_starrating (
+    uid INT AUTO_INCREMENT PRIMARY KEY,
+    pid INT DEFAULT '0' NOT NULL,
+    tstamp INT DEFAULT '0' NOT NULL,
+    crdate INT DEFAULT '0' NOT NULL,
+    cruser_id INT DEFAULT '0' NOT NULL,
+    deleted TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+    hidden TINYINT(1) UNSIGNED DEFAULT '0' NOT NULL,
+    bloguid INT(11) DEFAULT 0, 
+    commentuid INT(11) DEFAULT 0,
+    stars INT(11) DEFAULT 0,
+);

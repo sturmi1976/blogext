@@ -114,3 +114,31 @@
 
 
 
+
+<f:if condition="{slider} == 0">
+    <div class="tx-blogext-lastarticles">
+        <div class="container">
+            <div class="row">
+                <f:for each="{blogs}" as="blog" iteration="i">
+                    <div class="col-12 col-md-4 mb-5">
+                        <div class="teaser-card">
+                            <h3>{blog.title}</h3>
+                        <f:format.raw>
+                            <f:format.crop maxCharacters="150" append="&nbsp;&nbsp;...">
+                                {blog.teaser}
+                            </f:format.crop>
+                        </f:format.raw>
+                        <div class="teaser-button">
+                            <f:link.action class="teaser-button" pageUid="{settings.pageid}" action="show" controller="Blog" arguments="{blogUid: blog.uid}">
+                                <span>
+                                    {f:translate(key: 'more', extensionName: 'Blogext')}
+                                </span>
+                            </f:link.action>
+                        </div>
+                        </div>
+                    </div>
+                </f:for>
+            </div>
+        </div>
+    </div>
+</f:if>

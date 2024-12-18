@@ -37,6 +37,66 @@ class PostRepository extends Repository
         return $Uid;
 }
 
+
+public function newStarRating($insert_array) {
+    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable('tx_blogext_domain_model_starrating');
+    $affectedRows = $queryBuilder
+    ->insert('tx_blogext_domain_model_starrating')
+    ->values([
+        'pid' => $insert_array['pid'],
+        'tstamp' => $insert_array['tstamp'],
+        'crdate' => $insert_array['crdate'],
+        'commentuid' => $insert_array['commentuid'],
+        'bloguid' => $insert_array['bloguid'],
+        'stars' => $insert_array['stars'] 
+    ])
+    ->executeStatement();
+    
+    $Uid = $queryBuilder->getConnection()->lastInsertId();
+    
+    return $Uid;
+}
+
+
+public function getStarRatingSum($blogUid) {
+    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+    ->getQueryBuilderForTable('tx_blogext_domain_model_starrating');
+
+$queryBuilder->getRestrictions()->removeByType(\TYPO3\CMS\Core\Database\Query\Restriction\HiddenRestriction::class);
+
+return $queryBuilder
+    ->selectLiteral('SUM(stars) AS total_stars') 
+    ->from('tx_blogext_domain_model_starrating')
+    ->where(
+        $queryBuilder->expr()->eq('bloguid', $queryBuilder->createNamedParameter($blogUid)),
+        $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0)),
+        $queryBuilder->expr()->in('hidden', [0, 1])
+    )
+    ->executeQuery()
+    ->fetchOne(); 
+
+}
+
+
+public function getStarRatingReviewCount($blogUid) {
+    $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)
+    ->getQueryBuilderForTable('tx_blogext_domain_model_starrating');
+
+    $result = $queryBuilder
+    ->select('*')
+    ->from('tx_blogext_domain_model_starrating')
+    ->where(
+        $queryBuilder->expr()->eq('bloguid', $queryBuilder->createNamedParameter($blogUid)),
+        $queryBuilder->expr()->eq('hidden', $queryBuilder->createNamedParameter(0)),
+        $queryBuilder->expr()->eq('deleted', $queryBuilder->createNamedParameter(0))
+    )
+    ->executeQuery()
+    ->fetchAllAssociative();
+    return $result;
+}
+
+
+
     public function findBlogByUid(int $uid)
     {
         $query = $this->createQuery();

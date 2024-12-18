@@ -215,3 +215,69 @@ div.tx-blogext-tagcloud-content ul a:hover {
     color:#fff;
     text-shadow: 1px 1px 3px #000;
 }
+
+/* Last articles */
+div.teaser-button {
+    text-align: center;
+}
+a.teaser-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    text-align: center;
+    font-size: 16px;
+    transition: 0.4s all;
+  }
+  a.teaser-button:hover {
+    background-color: #0056b3; 
+  }
+
+  .teaser-card {
+    /* Größe und Stil */
+  display: block;
+  text-decoration: none;
+  padding:1.1rem;
+  color: inherit;
+  background: linear-gradient(135deg, #f39c12, #d35400);
+  border-radius: 10px;
+  color:#fafafa;
+  text-shadow: 1px 1px 2px #000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 
+              0 6px 20px rgba(0, 0, 0, 0.19);
+  overflow: hidden; /* Verhindert, dass Inhalte aus der Kachel herausragen */
+  position: relative;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  }
+
+  /* Hover-Effekt */
+.teaser-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 
+                0 8px 25px rgba(0, 0, 0, 0.25); 
+  }
+
+
+  .teaser-card:hover {
+    /* Zoom-Effekt */
+    transform: scale(1.10); /* Vergrößert die Kachel leicht */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3), 
+                0 8px 25px rgba(0, 0, 0, 0.25); /* Erhöht den Schatten beim Hovern */
+  }
+  
+  /* Zusätzlicher Effekt für Inhalte innerhalb der Kachel */
+  .teaser-card h3, 
+  .teaser-card .teaser-button, 
+  .teaser-card p {
+    transition: transform 0.3s ease;
+  }
+  
+  .teaser-card:hover h3, 
+  .teaser-card:hover .teaser-button, 
+  .teaser-card:hover p {
+    transform: scale(1.02); /* Vergrößert die Inhalte ebenfalls leicht */
+  }

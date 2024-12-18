@@ -82,6 +82,7 @@ class LastController extends ActionController
             $this->view->assign('autoplay', $autoplay);
         }else{
             // Wenn die Darstellung nur statisch erfolgen soll (ohne Slide-Funktion) 
+            $this->view->assign('slider', 0);
             $this->view->assign('blogs', $blogs);
         }
 

@@ -42,6 +42,10 @@
         <source>No comments available</source>
         <target>Keine Kommentare vorhanden</target>
       </trans-unit>
+      <trans-unit id="more">
+        <source>read more</source>
+        <target>zum Artikel</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
