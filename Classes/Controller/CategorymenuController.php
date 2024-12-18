@@ -14,6 +14,7 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Session\SessionManager;
 use TYPO3\CMS\Core\Session\SessionInterface;
 
+use TYPO3\CMS\Core\MetaTag\MetaTagManagerRegistry;
 
 
 

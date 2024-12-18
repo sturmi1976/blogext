@@ -758,7 +758,13 @@ class BlogController extends ActionController
             $p = ' - Seite 1';
         }
         $titleProvider = GeneralUtility::makeInstance(TitleProvider::class);
-        $titleProvider->setTitle($flexformData['seo_title'].$p);
+        $titleProvider->setTitle($categoryData[0]['seo_title'].$p);
+
+        // Meta Tag Description
+        if(isset($categoryData[0]['seo_title'])) {
+            $metaTagManager = GeneralUtility::makeInstance(MetaTagManagerRegistry::class)->getManagerForProperty('description');
+            $metaTagManager->addProperty('description', $categoryData[0]['meta_description']);
+        }
 
         $articles = [];
 
