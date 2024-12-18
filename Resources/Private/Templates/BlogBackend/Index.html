@@ -86,13 +86,6 @@ iframe {
 <script src="{f:uri.resource(path: 'JavaScript/Backend/backend.js')}"></script>  
 
 
-<f:if condition="{error}">
-    <f:then>
-        <div class="alert alert-primary text-center" role="alert">
-            {error} 
-        </div>
-    </f:then>
-    <f:else>
         <f:render partial="BlogBackend/Navigation" arguments="{_all}" />
         <f:render partial="BlogBackend/Modal" arguments="{_all}" />
 
@@ -191,12 +184,5 @@ iframe {
     </div>
 </div>
 
-
-
-
-
-
-    </f:else>
-</f:if>
     
 
