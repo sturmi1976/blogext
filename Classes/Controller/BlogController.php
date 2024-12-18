@@ -761,10 +761,12 @@ class BlogController extends ActionController
         $titleProvider->setTitle($categoryData[0]['seo_title'].$p);
 
         // Meta Tag Description
-        if(isset($categoryData[0]['seo_title'])) {
+        if(isset($categoryData[0]['meta_description'])) {
             $metaTagManager = GeneralUtility::makeInstance(MetaTagManagerRegistry::class)->getManagerForProperty('description');
             $metaTagManager->addProperty('description', $categoryData[0]['meta_description']);
         }
+
+        // \TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($categoryData); 
 
         $articles = [];
 
