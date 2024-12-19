@@ -106,14 +106,14 @@ public function getStarRatingReviewCount($blogUid) {
 
     }
 
-    
+
 
     public function findCategoriesByBlogUid($uid)
     {
         $query = $this->createQuery();
         $query->statement('SELECT * FROM tx_blogext_domain_model_category WHERE uid="'.$uid.'" AND hidden="0" AND deleted="0" ORDER BY title');
         $result = $query->execute(true);
-        return $result;
+        return $result; 
     }
 
     public function findAllBlogArticle(int $pid)

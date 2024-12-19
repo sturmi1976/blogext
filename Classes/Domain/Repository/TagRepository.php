@@ -19,23 +19,7 @@ class TagRepository extends Repository
 
     public function findTags()
     {
-        /*
-        $sql = 'SELECT 
-                t.uid, 
-                t.title, 
-                t.url_segment,
-                COUNT(*) AS frequency 
-            FROM 
-                tx_blogext_domain_model_tags t
-            JOIN 
-                tx_blogext_domain_model_post p
-            ON 
-                FIND_IN_SET(t.uid, p.tags) > 0
-            GROUP BY 
-                t.uid, t.title
-            ORDER BY 
-                frequency DESC;';
-        */
+       
             $sql = 'SELECT 
             t.uid, 
             t.title, 
