@@ -106,6 +106,8 @@ public function getStarRatingReviewCount($blogUid) {
 
     }
 
+    
+
     public function findCategoriesByBlogUid($uid)
     {
         $query = $this->createQuery();
