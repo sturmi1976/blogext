@@ -49,6 +49,9 @@ class FeedController extends ActionController
         echo $rssFeed;
         exit;
     }
+    
+
+
 
     /**
      * Generates RSS feed content
@@ -63,6 +66,7 @@ class FeedController extends ActionController
         $rss .= '<title>'.$flexformData['title'].'</title>';
         $rss .= '<link>' . GeneralUtility::getIndpEnv('TYPO3_SITE_URL') . '</link>';
         $rss .= '<description>'.$flexformData['desc'].'</description>';
+        $rss .= '<language>de-DE</language>';
 
         foreach ($blogEntries as $entry) {
 

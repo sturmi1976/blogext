@@ -2,9 +2,8 @@
 
 <article>
     <header>
-        <p>
-            <f:render partial="Blog/Show/Backlink" arguments="{blog}" />
-        </p>
+        <f:render partial="Blog/Show/Backlink" arguments="{blog}" />
+ 
         <f:render partial="Blog/Show/Headline" arguments="{blog.blog.0}" />
         <p class="created_date">
             {f:translate(key: 'created_label', extensionName: 'Blogext')}: 
@@ -17,7 +16,8 @@
 <section>
     <f:render partial="Blog/Show/Content" arguments="{blog}" />
 </section>
-<footer>
+
+<footer class="articleFooter">  
     <p>
         <b class="cat_label">Kategorie(n):</b> 
         <f:for each="{blog.categories}" as="category" iteration="i">
@@ -27,7 +27,7 @@
         </f:for>
     </p>
 </footer>
-</article>
+</article> 
 
 
 

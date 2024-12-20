@@ -54,7 +54,6 @@ class TagController extends ActionController
 
 
         $animated = $GLOBALS['TSFE']->register['animate_tagcloud'] = $flexformData['animate'];
-        //\TYPO3\CMS\Extbase\Utility\DebuggerUtility::var_dump($GLOBALS['TSFE']->register);
 
 
         $tags = $this->tagRepository->findTags();
@@ -68,11 +67,13 @@ class TagController extends ActionController
         $minFrequency = min(array_column($tags, 'frequency'));
 
         $frequencies = array_column($tags, 'frequency');
+
+
         $maxFrequency = max($frequencies);
         $minFrequency = min($frequencies);
 
         $size = 0;
-        $i=0;
+        $i=0; 
         $array = [];
         $content = '<div class="tagcloud">';
         foreach ($tags as $tag) {
@@ -81,12 +82,19 @@ class TagController extends ActionController
                 $size = $this->calculateSize($tag['frequency'], $minFrequency, $maxFrequency, $minFontSize, $maxFontSize); 
             }
             $frequency = $tag['frequency'];
-            $tag['font_size'] = $minFontSize + ($frequency - $minFrequency) / ($maxFrequency - $minFrequency) * ($maxFontSize - $minFontSize);
+            //$tag['font_size'] = $minFontSize + ($frequency - $minFrequency) / ($maxFrequency - $minFrequency) * ($maxFontSize - $minFontSize);
+            if ($maxFrequency != $minFrequency) {
+                $tag['font_size'] = $minFontSize + ($frequency - $minFrequency) / ($maxFrequency - $minFrequency) * ($maxFontSize - $minFontSize);
+            } else {
+                // Fallback: Setze eine Standardgröße oder handle den Fall anders
+                $tag['font_size'] = $minFontSize; // z.B. die minimale Schriftgröße verwenden
+            }
 
             $content .= '<a href="/tag/' . urlencode($tag['title']) . '" style="font-size: ' . round($size) . 'px;">' . htmlspecialchars($tag['title']) . '</a> ';
 
             $array[$i]['tag'][] = $tag['font_size'];
             $i++;
+            
         }
         $content .= '</div>';
 
